@@ -1,10 +1,24 @@
 import React from "react"
+import { useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
+import { addStocksToPortifolio } from "../../../store/actions/stock-portifolio"
 
-const Stock = ({cardStocks}) => {
+const StockCard = () => {
 
-    return (
-        <h1>{cardStocks.results.name}</h1>
-        )
-}
+    const cardStocks = useSelector(state => state.cardStocks.results)
 
-export { Stock }
+    const dispatch = useDispatch()
+
+        return(
+            <>
+                <section> 
+                    <h1>{cardStocks.name}</h1>  
+                    <h4>{cardStocks.ticker}</h4>
+                    <p>{cardStocks.description}</p>
+                    <button onClick={() => {dispatch(addStocksToPortifolio(cardStocks))}}>Adicionar ação à minha carteira</button>
+                </section>   
+            </>
+    )}
+    
+
+export { StockCard }
