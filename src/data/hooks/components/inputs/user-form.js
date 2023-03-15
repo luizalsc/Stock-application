@@ -2,8 +2,7 @@ import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { getTickers } from "../../../services/fetch-api"
 import { renderStocks } from "../../../store/actions/render-stock"
-import { StockCards } from "../cards/user-cards"
-
+import { StockCard } from "../card/stock-card"
 
 const UserForm = () => {
 
@@ -11,7 +10,7 @@ const UserForm = () => {
 
     const [inputs, setInputs] = useState({
         stocksTicker: '',
-        clicked: false
+        search: false
     })
 
     const handleIpuntChange = (event) => {
@@ -31,7 +30,7 @@ const UserForm = () => {
             dispatch(renderStocks(newStock))
 
             setInputs({
-                clicked: true
+                search: true
             })     
         }
 
@@ -44,7 +43,7 @@ const UserForm = () => {
             <form onSubmit={handleSubmit}>
                 <input type='text' onChange={handleIpuntChange} value={inputs.stocksTicker}></input>
                 <button type='submit'>Enviar</button>
-                {inputs.clicked == true ? <StockCards/> : <p>Coloque a sigla da sua ação (ex: GOOGL)</p>}
+                {inputs.search == true ? <StockCard/> : <p>Coloque a sigla de uma ação (ex: GOOGL)</p>}
             </form>   
             
         </>
