@@ -1,29 +1,18 @@
 import React from "react"
+import { useSelector } from "react-redux"
 
+const StockCards = () => {
 
-const StockCards = ({stock}) => {
+    const cardStocks = useSelector(state => state.cardStocks.results)
 
-   
-
-    return(
-        <>
-            <h1>{stock.ticker}</h1>
-            <p>
-                {stock.name}
-            </p>
-            <p>
-                {stock.currency_name}
-            </p>
-            <p>
-                {stock.locale}
-            </p>
-            <p>
-                {stock.description}
-            </p>
-            
-        </>
-    )
-
-}
+        return(
+            <>
+                <section> 
+                    <h1>{cardStocks.name}</h1>  
+                    <h4>{cardStocks.ticker}</h4>
+                </section>   
+            </>
+    )}
+    
 
 export { StockCards }
