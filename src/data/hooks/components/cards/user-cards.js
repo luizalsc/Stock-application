@@ -4,6 +4,7 @@ import { useSelector } from "react-redux"
 const StocksPortifolio = () => {
 
     const userStocks = useSelector(state => state.userStocks)
+        console.log(userStocks)
 
         return(
             <>
