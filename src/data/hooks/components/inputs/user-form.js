@@ -10,8 +10,7 @@ const UserForm = () => {
     const dispatch = useDispatch()
 
     const [inputs, setInputs] = useState({
-        stocksTicker: '',
-        search: false
+        stocksTicker: ''
     })
 
     const handleIpuntChange = (event) => {
@@ -29,15 +28,9 @@ const UserForm = () => {
             const newStock = await getTickers(inputs.stocksTicker)
             const stockDetails = await getTickerDetails(inputs.stocksTicker)
 
-
             dispatch(renderStocks(newStock))
             dispatch(getStocksDetails(stockDetails))
-
-            setInputs({
-                search: true
-            })     
         }
-
 
         fetchData()  
     }
@@ -47,16 +40,13 @@ const UserForm = () => {
             <form onSubmit={handleSubmit}>
                 <input type='text' onChange={handleIpuntChange} value={inputs.stocksTicker}></input>
                 <button type='submit'>Enviar</button>
-                <StockCard/>
             </form>   
-            
+            <StockCard/>
         </>
     )
 }
 
 export { UserForm }
-
-//{inputs.search == true ? <StockCard/> : <p>Coloque a sigla de uma ação (ex: GOOGL)</p>}
 
 
 

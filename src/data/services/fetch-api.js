@@ -1,4 +1,4 @@
-
+//---Separar lógica das datas desse arquivo (?)---
 const date = new Date()
 const previousDate = date.setHours(-1)
 const yesterdayDate = new Date(previousDate)
@@ -31,10 +31,13 @@ function formatPreviousDate(previousDate, format){
     return (format.replace(/mm|dd|aaaa/gi, matched => map[matched]))
 }
 
+//---------------
+
+//---Aprender a criar variável de ambiente---
+
 async function getTickers(stockTickers) {
 
-    const response = await fetch(`https://api.polygon.io/v3/reference/tickers/${stockTickers}?apiKey=insertkey`)
-
+    const response = await fetch(`https://api.polygon.io/v3/reference/tickers/${stockTickers}?apiKey=insertKey`)
               
     return(await response.json())
 }
@@ -45,11 +48,9 @@ async function getTickerDetails(stockTickers) {
     const currentDay = formatCurrentDate(date, 'aaaa-mm-dd')
     const previousDay = formatPreviousDate(yesterdayDate, 'aaaa-mm-dd')
 
-    const response = await fetch(`https://api.polygon.io/v2/aggs/ticker/${stockTickers}/range/1/day/${previousDay}/${currentDay}?apiKey=insertkey`)
+    const response = await fetch(`https://api.polygon.io/v2/aggs/ticker/${stockTickers}/range/1/day/${previousDay}/${currentDay}?apiKey=insertKey`)
 
     return (await response.json())
-
-
 }
 
 export { getTickers, getTickerDetails }
