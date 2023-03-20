@@ -2,25 +2,49 @@ import { combineReducers, createStore } from 'redux'
 import portifolioReducer from './reducers/stock-portifolio'
 import renderStocksReducer from './reducers/render-stock'
 import renderStockDetails from './reducers/render-stock-details'
-import storage from 'redux-persist/lib/storage'
-import { persistReducer, persistStore } from 'redux-persist'
+import removeStocksReducer from './reducers/remove-stocks'
+import deletedStocksReducer from './reducers/deleted-stocks'
+//import storage from 'redux-persist/lib/storage'
+//import { persistReducer, persistStore } from 'redux-persist'
 
 const rootReducer = combineReducers({
     userStocks: portifolioReducer,
     cardStocks: renderStocksReducer,
-    stockDetails: renderStockDetails
+    stockDetails: renderStockDetails,
+    deletedStocks: deletedStocksReducer,
+    chosenStocks: removeStocksReducer
 })
 
-const persistConfig = {
-    key: 'root',
-    storage,
-    whiteList: ['renderStocksReducer']
-}
+const store = createStore(rootReducer)
 
-const persistedReducer = persistReducer(persistConfig , rootReducer)
+export { store }
 
-const store = createStore(persistedReducer)
+//----IMPLEMENTAR REDUX PERSIST---
 
-const persistor = persistStore(store)
+// const persistConfig = {
+//     key: 'root',
+//     storage
+// }
 
-export { store , persistor }
+//const persistedReducer = persistReducer(persistConfig , rootReducer)
+
+//const persistor = persistStore(store)
+
+// const rootReducer = combineReducers({
+//     userStocks: portifolioReducer,
+//     cardStocks: renderStocksReducer,
+//     stockDetails: renderStockDetails
+// })
+
+// const persistConfig = {
+//     key: 'root',
+//     storage
+// }
+
+// const persistedReducer = persistReducer(persistConfig , rootReducer)
+
+// const store = createStore(persistedReducer)
+
+// const persistor = persistStore(store)
+
+// export { store , persistor }

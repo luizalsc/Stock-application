@@ -6,10 +6,10 @@ import { addStocksToPortifolio } from "../../../store/actions/stock-portifolio"
 const StockCard = () => {
 
     const cardStocks = useSelector(state => state.cardStocks.results)
-
+   
     const dispatch = useDispatch()
 
-    if(cardStocks == undefined){
+    if(cardStocks === undefined){
 
         return(
             <>
@@ -17,8 +17,6 @@ const StockCard = () => {
             </>
         )
     }
-    
-
         return(
             <>
                 <section> 
@@ -30,6 +28,8 @@ const StockCard = () => {
                 </section>   
             </>
     )}
+
+//---Separar componentes---
 
 const StockDetails = () => {
 
