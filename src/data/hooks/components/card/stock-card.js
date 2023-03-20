@@ -33,21 +33,13 @@ const StockCard = () => {
 
 const StockDetails = () => {
 
-    const stockDetails = useSelector(state => state.stockDetails.results)
+    const stockDetails = useSelector(state => state.stockDetails)
 
     return(
         <>
             <div>
-                <h3>Preço de abertura do dia anterior</h3>
-                <p>{stockDetails[0].o}</p>
-                <h3>Média ponderada do dia anterior</h3>
-                <p>{stockDetails[0].vw}</p>
-            </div>
-            <div>
-                <h3>Preço de abertura atual</h3>
-                <p>{stockDetails[1].o}</p>
-                <h3>Média ponderada atual</h3>
-                <p>{stockDetails[1].vw}</p>
+                <h3>Preço da ação</h3>
+                <p>{stockDetails.close}</p>
             </div>
         </>
     )

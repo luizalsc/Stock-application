@@ -1,8 +1,6 @@
-//---Action necessária??---
-
-export function deleteSotck(stockDetails) {
+export function deleteSotck(index) {
     return {
         type: 'ADD_DELETED_STOCK',
-        payload: stockDetails
+        payload: index
     }
 }
