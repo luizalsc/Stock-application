@@ -17,7 +17,7 @@ const StocksPortifolio = () => {
                         userStocks.map((stock, index) => (
                         <li key={index} name={stock.name} >
                             <h3>{stock.name}</h3>
-                            <button onClick={()=>{dispatch(deleteSotck(index))}}>Clique em cima para deletar a ação</button>
+                            <button onClick={()=>{dispatch(deleteSotck(index))}}>Remover ação</button>
                         </li>
                     ))
                     ) : (
