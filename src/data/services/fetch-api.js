@@ -37,7 +37,9 @@ function formatPreviousDate(previousDate, format){
 
 async function getTickers(stockTickers) {
 
-    const response = await fetch(`https://api.polygon.io/v3/reference/tickers/${stockTickers}?apiKey=insertKey`)
+
+    const response = await fetch(`https://api.polygon.io/v3/reference/tickers/${stockTickers}?apiKey=insertkey`)
+
               
     return(await response.json())
 }
@@ -47,7 +49,9 @@ async function getTickerDetails(stockTickers) {
     const currentDay = formatCurrentDate(date, 'aaaa-mm-dd')
     const previousDay = formatPreviousDate(yesterdayDate, 'aaaa-mm-dd')
 
-    const response = await fetch(`https://api.polygon.io/v1/open-close/${stockTickers}/2023-03-17?apiKey=insertKey`)
+
+    const response = await fetch(`https://api.polygon.io/v1/open-close/${stockTickers}/${previousDay}?apiKey=insertkey`)
+
 
     return (await response.json())
 }
