@@ -1,8 +1,6 @@
 import React from "react"
 import { deleteSotck } from "../../../store/actions/remove-stock"
 import { useDispatch, useSelector } from "react-redux"
-import { StockDetails } from "../card/stock-card"
-
 
 const StocksPortifolio = () => {
 
@@ -17,9 +15,9 @@ const StocksPortifolio = () => {
                     {userStocks.length > 0 ? (
                         userStocks.map((stock, index) => (
                         <li key={index} name={stock.name} >
-                            <h3>{stock.name}</h3>
-                            <p>{stock.ticker} - {stock.sic_description}</p>
-                            <StockDetails/>
+                            <h3>{stock.cardStocks.name}</h3>
+                            <p>{stock.cardStocks.ticker} - {stock.cardStocks.sic_description}</p>
+                            <p>{stock.stocksCLosePrice.close}</p>
                             <button onClick={()=>{dispatch(deleteSotck(index))}}>Remover ação</button>
                         </li>
                     ))
