@@ -21,6 +21,7 @@ const PortifolioForm = ({contributionValue, stockInfo, portifolioInfo}) => {
     //     setState({...state, [event.target.name]: value})
     // }
     //----------------------------------------------------
+    const [wallet, setWallet] = useState([])
 
     const [contribution, setContribution] = useState({
         amount: ''
@@ -29,11 +30,9 @@ const PortifolioForm = ({contributionValue, stockInfo, portifolioInfo}) => {
         ticker: '',
         price: ''
     })
-
     const [percentual, setPercentual] = useState({
         precentual: ''
     })
-
     const [portifolio, setPortifolio] = useState([])
 
     const handleContributionChange = (event) => {
@@ -71,13 +70,11 @@ const PortifolioForm = ({contributionValue, stockInfo, portifolioInfo}) => {
 
     const handleSubmit = (event) => {
         event.preventDefault()
-      
         console.log(portifolio)
-        portifolioCalculator(contribution.amount, portifolio)
-
-        return(portifolio)
-    }
-            
+        const response = portifolioCalculator(contribution.amount, portifolio)
+        setWallet(response)
+        return(response)
+    }     
 
     return(
         <>
@@ -108,13 +105,13 @@ const PortifolioForm = ({contributionValue, stockInfo, portifolioInfo}) => {
                 <input type='number' onChange={handleContributionChange} value={contributionValue} placeholder='Valor total do aporte' id='contribution' name='amount' required></input>
 
                 <br/><br/>
-                <button type='submit'>Enviar</button>
+                <button type='submit'>Calcular</button>
                 <br/>
                 <br/><br/>
             </form> 
             
             <Wallet portifolioInfo={portifolio}/>
-            <Calculator portifolio={portifolio} contribution={contribution}/>
+            <Calculator inputsInfo={wallet}/>
         </>
     )
 }
@@ -136,19 +133,20 @@ export { Portifolio }
 function portifolioCalculator(amount, portifolio){
     
     const response = portifolio.map(stock => (
-        (parseInt(amount)*parseInt(stock.percentual.percentual)/100)/parseInt(stock.stockInfos.price)
-    ))
+        (parseInt(amount)*parseInt(stock.percentual.percentual)/100)/parseInt(stock.stockInfos.price)))
     const result = response.map(stocksUnits => parseInt(stocksUnits))
-    return (result)
+    const tickers = portifolio.map(stock => stock.stockInfos.ticker)
+
+    const finalResult = tickers.map((e,i) => `${result[i]} ações da ${e}`)
+
+    return (finalResult)
 }
 
 const Wallet = (props) => {
 
-    const userStocks = useSelector(state => state.userStocks)
-
-    
-
     return(
+        <>
+        <h1>Ações escolhidas</h1>
         <ul>
             {props.portifolioInfo.length > 0 ? (
                 props.portifolioInfo.map((stock, index) => (
@@ -160,24 +158,29 @@ const Wallet = (props) => {
                 <li>Adicione suas ações</li>
             )}
         </ul>
+        </>
     )
 }
 //-----------------------------------------
 
-const Calculator = () => {
-    
+const Calculator = (props) => {
+
+    const usersWallet = props.inputsInfo
+    console.log(usersWallet)
     return(
-        <ul>
-            {/* {response.length > 0 ? (
-                response.map((stocks, index) => (
-                    <li key={index} value={stocks}>
-                        <p>{`${Math.floor(stocks)}`}</p>
+        <div>
+             {usersWallet.length > 0 ? (
+            <>
+            <p>Você deve comprar:</p>
+            <ul>
+                {usersWallet.map((units, index) => (
+                    <li key={index} >
+                        <p>{units}</p>
                     </li>                       
-            ))
-            ) : (
-                <li>Adicione suas ações</li>
-            )} */}
-        </ul>
+                ))}
+            </ul>
+            </>) : (<></>)}
+        </div>
     )
 }
 
