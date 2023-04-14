@@ -12,7 +12,7 @@ const StockCard = () => {
     
     const dispatch = useDispatch()
 
-    if(initialStock === undefined){
+    if(initialStock.cardStocks === undefined){
 
         return(
             <>
@@ -31,6 +31,7 @@ const StockCard = () => {
                         <p>{initialStock.stocksCLosePrice.close}</p>
                     </div>
                     <button onClick={() => {dispatch(addStocksToPortifolio(initialStock))}}>Adicionar ação à minha carteira</button>
+                    
                 </section>   
             </>
     )}

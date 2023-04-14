@@ -28,6 +28,11 @@ const UserForm = () => {
             const newStock = await getTickers(inputs.stocksTicker)
             const stockDetails = await getTickerDetails(inputs.stocksTicker)
 
+            if(newStock.status === 'NOT_FOUND'){
+                alert(`Esta ação não existe`)
+                return
+            }
+
             dispatch(renderStocks(newStock))
             dispatch(getStocksDetails(stockDetails))
         }
@@ -39,9 +44,10 @@ const UserForm = () => {
         <>
             <form onSubmit={handleSubmit}>
                 <input type='text' onChange={handleIpuntChange} value={inputs.stocksTicker}></input>
-                <button type='submit'>Enviar</button>
+                <button type='submit'>Pesquisar</button>
             </form>   
             <StockCard/>
+            
         </>
     )
 }
