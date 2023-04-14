@@ -73,6 +73,7 @@ const PortifolioForm = ({contributionValue, stockInfo, portifolioInfo}) => {
         event.preventDefault()
       
         console.log(portifolio)
+        portifolioCalculator(contribution.amount, portifolio)
 
         return(portifolio)
     }
@@ -132,6 +133,15 @@ const Portifolio = () => {
 
 export { Portifolio }
 
+function portifolioCalculator(amount, portifolio){
+    
+    const response = portifolio.map(stock => (
+        (parseInt(amount)*parseInt(stock.percentual.percentual)/100)/parseInt(stock.stockInfos.price)
+    ))
+    const result = response.map(stocksUnits => parseInt(stocksUnits))
+    return (result)
+}
+
 const Wallet = (props) => {
 
     const userStocks = useSelector(state => state.userStocks)
@@ -154,19 +164,8 @@ const Wallet = (props) => {
 }
 //-----------------------------------------
 
-const Calculator = (props) => {
+const Calculator = () => {
     
-    const totalAmount = parseInt(props.contribution.amount)
-
-    function walletCalculator(){
-
-        const response = props.portifolio.map((stock, index) => ((parseInt(stock.percentual.percentual)*totalAmount/100)/stock.stockInfos.price))
-
-        return response
-    }
-
-    walletCalculator()
-
     return(
         <ul>
             {/* {response.length > 0 ? (
