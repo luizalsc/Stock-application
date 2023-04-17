@@ -83,7 +83,8 @@ const PortifolioForm = ({contributionValue, stockInfo, portifolioInfo}) => {
                 <label htmlFor='stocks'>Selecione as ações desejadas</label>
                 <br/>
                 <div>
-                    <select name='ticker' onChange={handleStockInfoChange}>
+                    <select name='ticker' onChange={handleStockInfoChange} defaultValue={'-Selecione-'}>
+                        <option value='-Selecione-' disabled>-Selecione-</option>
                         {userStocks.length > 0 ? (
                             userStocks.map((stock, index) => (
                                 <option key={index} value={`${stock.cardStocks.ticker} ${stock.stocksCLosePrice.close}`} name={stock.cardStocks.ticker}>
@@ -117,10 +118,8 @@ const PortifolioForm = ({contributionValue, stockInfo, portifolioInfo}) => {
 }
 
 const Portifolio = () => {
-   
     return(
         <>
-
             <Link to={`/`}>Voltar</Link>
             <StocksPortifolio/>
             <PortifolioForm/>
@@ -128,7 +127,17 @@ const Portifolio = () => {
     )
 }
 
-export { Portifolio }
+const Select = (props) => {
+    return (
+        <>
+            <select>{props.children}</select>
+        </>
+    )
+}
+
+Select.defaultProps = {
+    selected: '-Selecione-'
+}
 
 function portifolioCalculator(amount, portifolio){
     
@@ -184,3 +193,4 @@ const Calculator = (props) => {
     )
 }
 
+export { Portifolio }
