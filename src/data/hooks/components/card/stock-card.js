@@ -9,7 +9,7 @@ const StockCard = () => {
         cardStocks: useSelector(state => state.cardStocks.results),
         stocksCLosePrice: useSelector(state => state.stockDetails)
     }
-    
+    console.log(initialStock.stocksCLosePrice)
     const dispatch = useDispatch()
 
     if(initialStock.cardStocks === undefined){
