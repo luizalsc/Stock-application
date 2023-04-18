@@ -15,7 +15,7 @@ const UserForm = () => {
 
     const handleIpuntChange = (event) => {
         setInputs({
-            stocksTicker: event.target.value
+            stocksTicker: event.target.value.toUpperCase()
         })
     }
 

@@ -7,7 +7,7 @@ function formatPreviousDate(previousDate, format){
 
     if(previousDate.getDay() === 0){
         day = previousDate.getDate() -2
-    }else if(previousDate.getDay() === 1){
+    }else if(previousDate.getDay() === 6){
         day = previousDate.getDate() - 1
     }
     const month = previousDate.getMonth() + 1
