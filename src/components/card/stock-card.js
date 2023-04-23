@@ -1,7 +1,6 @@
 import React from "react"
-import { useSelector } from "react-redux"
-import { useDispatch } from "react-redux"
-import { addStocksToPortifolio } from "../../../store/actions/stock-portifolio"
+import { useSelector, useDispatch } from "react-redux"
+import { addStocksToPortifolio } from "../../data/store/actions/stock-portifolio"
 
 const StockCard = () => {
 
@@ -22,7 +21,7 @@ const StockCard = () => {
         dispatch(addStocksToPortifolio(initialStock))
     }
 
-    if(initialStock.cardStocks === undefined){
+    if (initialStock.cardStocks === undefined) {
         return(
             <>
                 <p>Pesquise uma sigla de ação</p>  

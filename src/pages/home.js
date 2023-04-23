@@ -1,5 +1,5 @@
-import { UserForm } from "../data/hooks/components/inputs/user-form"
-import { StocksPortifolio } from '../data/hooks/components/cards/user-cards'
+import { UserForm } from '../components/inputs/user-form'
+import { StocksPortifolio } from '../components/cards/user-cards'
 import { Link } from "react-router-dom"
 
 const Home = () => {

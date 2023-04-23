@@ -1,8 +1,8 @@
 import { useState } from "react"
 import { useDispatch } from "react-redux"
-import { getTickers, getTickerDetails } from "../../../services/fetch-api"
-import { renderStocks } from "../../../store/actions/render-stock"
-import { getStocksDetails } from '../../../store/actions/render-stock-details'
+import { getTickers, getTickerDetails } from "../../data/services/fetch-api"
+import { renderStocks } from "../../data/store/actions/render-stock"
+import { getStocksDetails } from '../../data/store/actions/render-stock-details'
 import { StockCard } from "../card/stock-card"
 
 const UserForm = () => {
@@ -41,14 +41,19 @@ const UserForm = () => {
     }
 
     return(
-        <>
+        <div data-testid='user-form'>
             <form onSubmit={handleSubmit}>
-                <input type='text' onChange={handleIpuntChange} value={inputs.stocksTicker}></input>
-                <button type='submit'>Pesquisar</button>
+                <input
+                type='text'
+                onChange={handleIpuntChange}
+                value={inputs.stocksTicker}
+                placeholder="AAPL"/>
+                <button type='submit'>
+                    Pesquisar
+                </button>
             </form>   
-            <StockCard/>
-            
-        </>
+            <StockCard data-testid='stock-card'/>
+        </div>
     )
 }
 
