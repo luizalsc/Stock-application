@@ -59,7 +59,7 @@ describe('Renders StockCard correctly', ()=>{
         expect(buttonEl).toBeInTheDocument()
     })
 
-    it('dispatch stock to portifolio when button is clicked', ()=>{
+    it('dispatch the correct action when button is clicked', ()=>{
         const store = createMockStore()
         render(
             <Provider store={store}>
@@ -75,7 +75,10 @@ describe('Renders StockCard correctly', ()=>{
         expect(actions[0].type).toEqual("ADD_STOCK_TO_PORTIFOLIO")
 
     })
+
+    
 })
+
 
 //npm test -- src/components/card/stock-card.test.js
 
