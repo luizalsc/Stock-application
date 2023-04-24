@@ -5,8 +5,6 @@
 import { portifolioCalculator } from './components/calculator';
 import '@testing-library/jest-dom';
 
-
-
 // it('Calculator is working', () => {
 //     const myPortifolio = [
 //         {stockInfos: {price: 50, ticker: 'A'},
