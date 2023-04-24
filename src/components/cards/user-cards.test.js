@@ -3,10 +3,8 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { StocksPortifolio } from '../cards/user-cards'
 import { Provider } from "react-redux";
 import configureStore from 'redux-mock-store';
-import portifolioReducer from '../../data/store/reducers/stock-portifolio'
 import { deleteSotck } from "../../data/store/actions/remove-stock";
 import reducer from "../../data/store/reducers/stock-portifolio";
-
 
 function createMockStore(){
     const mockStore = configureStore([])
@@ -144,8 +142,13 @@ describe('Renders StockCard correctly', ()=>{
         const expectedStore = [
             { cardStocks: {name: "Test Company 2", ticker: 'TST2', description: 'Lorem Ipsum 2'}, stocksCLosePrice: {close: 200.00} }]
 
-        expect(reducer(store.getState().userStocks, deleteSotck(0))).not.toEqual(store)
-        expect(reducer(store.getState().userStocks, deleteSotck(0))).toEqual(expectedStore)  
+        const buttonEl1 = screen.getAllByRole('button')[0]
+        const actions = store.getActions()
+            
+        fireEvent.click(buttonEl1)
+
+        expect(reducer(store.getState().userStocks, deleteSotck(actions[0].payload))).not.toEqual(store)
+        expect(reducer(store.getState().userStocks, deleteSotck(actions[0].payload))).toEqual(expectedStore)  
         })
 
     it('remove the correct stock from store when button 2 is clicked', ()=>{
@@ -159,9 +162,13 @@ describe('Renders StockCard correctly', ()=>{
             const expectedStore = [{ 
                 cardStocks: {name: "Test Company", ticker: 'TST', description: 'Lorem Ipsum'}, stocksCLosePrice: {close: 100.00} 
                 }]
-            
-            expect(reducer(store.getState().userStocks, deleteSotck(1))).not.toEqual(store)
-            expect(reducer(store.getState().userStocks, deleteSotck(1))).toEqual(expectedStore)  
+            const buttonEl2 = screen.getAllByRole('button')[1]
+            const actions = store.getActions()
+
+            fireEvent.click(buttonEl2)
+
+            expect(reducer(store.getState().userStocks, deleteSotck(actions[0].payload))).not.toEqual(store)
+            expect(reducer(store.getState().userStocks, deleteSotck(actions[0].payload))).toEqual(expectedStore)  
             })
         
 })
