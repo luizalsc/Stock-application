@@ -3,19 +3,19 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { StockCard } from "./stock-card";
 import { Provider } from "react-redux";
 import configureStore from 'redux-mock-store';
-
+import { addStocksToPortifolio } from "../../data/store/actions/stock-portifolio";
+import reducer from "../../data/store/reducers/stock-portifolio"
 
 function createMockStore(){
     const mockStore = configureStore([])
     const store = mockStore({
         cardStocks: {results: {name: "Test Company", ticker: 'TST', description: 'Lorem Ipsum'}}, 
         stockDetails: {close: 100.00},
-        userStocks: [{ cardStocks: { ticker: "AAPL" } }]
+        userStocks: []
     }
     )
     return store
 }
-
 
 describe('Renders StockCard correctly', ()=>{
 
@@ -73,11 +73,49 @@ describe('Renders StockCard correctly', ()=>{
         fireEvent.click(buttonEl)
         //Verify the action type fired 
         expect(actions[0].type).toEqual("ADD_STOCK_TO_PORTIFOLIO")
-
     })
 
-    
+    it('dispatch the correct payload when button is clicked', ()=>{
+        const store = createMockStore()
+        render(
+            <Provider store={store}>
+                <StockCard/>
+            </Provider>
+        )
+
+        const expectedPayload =  {"cardStocks": {"description": "Lorem Ipsum", "name": "Test Company", "ticker": "TST"}, "stocksCLosePrice": {"close": 100}}
+
+        const buttonEl = screen.getByRole('button')
+        //Acess the array of actions in this Component
+        const actions = store.getActions()
+        fireEvent.click(buttonEl)
+        //Verify the action type fired 
+        expect(actions[0].payload).toEqual(expectedPayload)
+    })
+
+    it('add stock to userStocks when action is dispatched', ()=>{
+        const store = createMockStore()
+        render(
+            <Provider store={store}>
+                <StockCard/>
+            </Provider>
+        )
+
+        const expectedUserStocks =  [{"cardStocks": {"description": "Lorem Ipsum", "name": "Test Company", "ticker": "TST"}, "stocksCLosePrice": {"close": 100}}]
+
+        const buttonEl = screen.getByRole('button')
+        //Acess the array of actions in this Component
+        const actions = store.getActions()
+        fireEvent.click(buttonEl)
+        //Verify the new store state
+
+        expect(reducer(store.getState().userStocks, addStocksToPortifolio(actions[0].payload))).toEqual(expectedUserStocks)  
+        expect(reducer(store.getState().userStocks, addStocksToPortifolio(actions[0].payload))).not.toEqual(store.getState().userStocks)
+        })
 })
+    
+    
+
 
 
 //npm test -- src/components/card/stock-card.test.js

@@ -2,6 +2,7 @@ import React from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { addStocksToPortifolio } from "../../data/store/actions/stock-portifolio"
 
+
 const StockCard = () => {
 
     const initialStock = {
