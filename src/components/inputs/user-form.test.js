@@ -4,7 +4,7 @@ import {
 } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { UserForm } from './user-form';
-import { store } from '../../../store/store';
+import { store } from '../../data/store/store';
 
 function ReduxProvider({ children }) {
   return <Provider store={store}>{children}</Provider>;
