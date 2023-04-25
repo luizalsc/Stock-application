@@ -1,42 +1,41 @@
-import React from 'react';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { getTickers, getTickerDetails } from '../../data/services/fetch-api';
-import { renderStocks } from '../../data/store/actions/render-stock';
-import { getStocksDetails } from '../../data/store/actions/render-stock-details';
-import { StockCard } from '../card/stock-card';
+import { useDispatch } from 'react-redux'
+import { getTickers, getTickerDetails } from '../../data/services/fetch-api'
+import { renderStocks } from '../../data/store/actions/render-stock'
+import { getStocksDetails } from '../../data/store/actions/render-stock-details'
+import { StockCard } from '../card/stock-card'
+import { useState } from 'react'
 
-function UserForm() {
-  const dispatch = useDispatch();
+function UserForm () {
+  const dispatch = useDispatch()
 
   const [inputs, setInputs] = useState({
-    stocksTicker: '',
-  });
+    stocksTicker: ''
+  })
 
   const handleIpuntChange = (event) => {
     setInputs({
-      stocksTicker: event.target.value.toUpperCase(),
-    });
-  };
+      stocksTicker: event.target.value.toUpperCase()
+    })
+  }
 
   const handleSubmit = (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
     const fetchData = async () => {
-      const newStock = await getTickers(inputs.stocksTicker);
-      const stockDetails = await getTickerDetails(inputs.stocksTicker);
+      const newStock = await getTickers(inputs.stocksTicker)
+      const stockDetails = await getTickerDetails(inputs.stocksTicker)
 
       if (newStock.status === 'NOT_FOUND') {
-        alert('Esta ação não existe');
-        return;
+        alert('Esta ação não existe')
+        return
       }
 
-      dispatch(renderStocks(newStock));
-      dispatch(getStocksDetails(stockDetails));
-    };
+      dispatch(renderStocks(newStock))
+      dispatch(getStocksDetails(stockDetails))
+    }
 
-    fetchData();
-  };
+    fetchData()
+  }
 
   return (
     <div data-testid="user-form">
@@ -53,7 +52,7 @@ function UserForm() {
       </form>
       <StockCard data-testid="stock-card" />
     </div>
-  );
+  )
 }
 
-export { UserForm };
+export { UserForm }

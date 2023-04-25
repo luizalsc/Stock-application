@@ -1,29 +1,28 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { addStocksToPortifolio } from '../../data/store/actions/stock-portifolio';
+import { useSelector, useDispatch } from 'react-redux'
+import { addStocksToPortifolio } from '../../data/store/actions/stock-portifolio'
 
-function StockCard() {
+function StockCard () {
   const initialStock = {
     cardStocks: useSelector((state) => state.cardStocks.results),
-    stocksCLosePrice: useSelector((state) => state.stockDetails),
-  };
-  const userStocks = useSelector((state) => state.userStocks);
-  const dispatch = useDispatch();
+    stocksCLosePrice: useSelector((state) => state.stockDetails)
+  }
+  const userStocks = useSelector((state) => state.userStocks)
+  const dispatch = useDispatch()
 
   const handleClick = (event) => {
-    const { value } = event.target;
-    const repeatedSotcks = userStocks.filter((item) => item.cardStocks.ticker === value);
+    const { value } = event.target
+    const repeatedSotcks = userStocks.filter((item) => item.cardStocks.ticker === value)
     if (repeatedSotcks.length > 0) {
-      alert(`Você já adicionou ${value} à sua carteira. Cada ação só pode ser adicionada uma única vez`);
-      return;
+      alert(`Você já adicionou ${value} à sua carteira. Cada ação só pode ser adicionada uma única vez`)
+      return
     }
-    dispatch(addStocksToPortifolio(initialStock));
-  };
+    dispatch(addStocksToPortifolio(initialStock))
+  }
 
   if (initialStock.cardStocks === undefined) {
     return (
       <p>Pesquise uma sigla de ação</p>
-    );
+    )
   }
   return (
     <section>
@@ -37,7 +36,7 @@ function StockCard() {
       <button onClick={handleClick} value={initialStock.cardStocks.ticker}>Adicionar ação à minha carteira</button>
 
     </section>
-  );
+  )
 }
 
-export { StockCard };
+export { StockCard }

@@ -1,10 +1,13 @@
-function Wallet(props) {
+import PropTypes from 'prop-types'
+
+function Wallet (props) {
   return (
     <>
       <h1>Ações escolhidas</h1>
       <ul>
-        {props.portifolioInfo.length > 0 ? (
-          props.portifolioInfo.map((stock, index) => (
+        {props.portifolioInfo.length > 0
+          ? (
+              props.portifolioInfo.map((stock, index) => (
             <li key={index} value={stock.stockInfos.ticker}>
               <p>
                 {stock.stockInfos.ticker}
@@ -15,13 +18,18 @@ function Wallet(props) {
                 %
               </p>
             </li>
-          ))
-        ) : (
+              ))
+            )
+          : (
           <li>Adicione suas ações</li>
-        )}
+            )}
       </ul>
     </>
-  );
+  )
 }
 
-export { Wallet };
+Wallet.propTypes = {
+  portifolioInfo: PropTypes.arrayOf(PropTypes.object)
+}
+
+export { Wallet }

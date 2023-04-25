@@ -1,6 +1,6 @@
-export function renderStocks(newStock) {
+export function renderStocks (newStock) {
   return {
     type: 'RENDER_STOCK',
-    payload: newStock,
-  };
+    payload: newStock
+  }
 }
