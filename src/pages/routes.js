@@ -1,8 +1,8 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Home } from './home';
-import { Portifolio } from './portifolio';
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { Home } from './home'
+import { Portifolio } from './portifolio'
 
-function AppRoutes() {
+function AppRoutes () {
   return (
     <BrowserRouter>
       <Routes>
@@ -10,7 +10,7 @@ function AppRoutes() {
         <Route exact path="/portifolio" element={<Portifolio />} />
       </Routes>
     </BrowserRouter>
-  );
+  )
 }
 
-export { AppRoutes };
+export { AppRoutes }
