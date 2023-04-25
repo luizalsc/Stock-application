@@ -35,6 +35,17 @@
       "last 1 safari version"
     ]
   },
+  "jest": {
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/setupTests.js"
+    ],
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}"
+    ],
+    "coverageDirectory": "coverage",
+    "testEnvironment": "jsdom"
+  },
   "devDependencies": {
     "@babel/plugin-syntax-jsx": "^7.21.4",
     "@babel/preset-react": "^7.18.6",
