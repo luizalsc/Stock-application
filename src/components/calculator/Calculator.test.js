@@ -5,28 +5,28 @@ import { Calculator } from './index';
 import { portifolioCalculator } from './index';
 
 describe('Renders StockCard correctly', () => {
+  it('Renders all stocks and their quantity', () => {
+    const userMocksWallet = [
+      '8 ações da TST',
+      '4 ações da THE',
+      '4 ações da DED',
+    ];
 
-    it('Renders result after receiving arguments', ()=> {
-        const userMocksWallet = [
-            '8 ações da TST',
-            '4 ações da THE',
-            '4 ações da DED',
-          ];
+    render(
+      <Calculator inputsInfo={userMocksWallet} />
+    )
 
-        render(
-            <Provider>
-                <Calculator inputsInfo={userMocksWallet}/>
-            </Provider>
-        )
+    const listItems = screen.getAllByRole('listitem')
 
-        const listItems = screen.getAllByRole('listitem')
-
-        expect(listItems).toHaveLength(3)
-        expect(listItems).toContainEqual('4 ações da DED')
-
+    expect(listItems).toHaveLength(3)
+    userMocksWallet.forEach((stockInfo) => {
+      expect(screen.getByText(stockInfo)).toBeInTheDocument()
     })
+  });
 
-  it('Calculator is working', () => {
+  // recommended wallet is the stocks and their quantity that the user should
+  // buy so it has the desired financial assets percentage
+  it('returns the recommended wallet', () => {
     const myPortifolio = [
       {
         stockInfos: { price: 50, ticker: 'A' },
@@ -38,10 +38,8 @@ describe('Renders StockCard correctly', () => {
       },
     ];
     const amount = 1000;
-    const result = portifolioCalculator(amount, myPortifolio);
+    const recommendedWallet = portifolioCalculator(amount, myPortifolio);
 
-    expect(result).toStrictEqual(['10 ações da A', '8 ações da B']);
+    expect(recommendedWallet).toStrictEqual(['10 ações da A', '8 ações da B']);
   });
 });
-
-// npm test --src/components/calculator/Calculator.test.js

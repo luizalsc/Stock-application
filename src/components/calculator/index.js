@@ -1,3 +1,5 @@
+import React from 'react'
+
 function Calculator(props) {
   const usersWallet = props.inputsInfo;
   return (
