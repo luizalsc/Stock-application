@@ -51,6 +51,28 @@ it('handles form submission correctly', async () => {
   expect(getTickerDetails).toHaveBeenCalledWith('AAPL')
 })
 
+it('handles form submission correctly', async () => {
+  // Render the component with the Redux store provider.
+  render(<UserForm />, { wrapper: ReduxProvider })
+
+  // Fill in the input field with test data.
+  const inputField = screen.getByPlaceholderText('AAPL')
+  fireEvent.change(inputField, { target: { value: 'AAPL' } })
+
+  // Simulate a form submission.
+  const submitButton = screen.getByText('Pesquisar')
+  fireEvent.click(submitButton)
+
+  // Wait for the fetchData function to resolve.
+  await act(async () => {
+    await Promise.resolve()
+  })
+
+  // Check that the getTickers and getTickerDetails functions were called with the correct data.
+  expect(getTickers).toHaveBeenCalledWith('AAPL')
+  expect(getTickerDetails).toHaveBeenCalledWith('AAPL')
+})
+
 ReduxProvider.propTypes = {
   children: PropTypes.node
 }
