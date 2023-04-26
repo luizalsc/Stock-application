@@ -169,4 +169,3 @@ describe('Renders StockCard correctly', () => {
     expect(reducer(store.getState().userStocks, deleteSotck(actions[0].payload))).toEqual(expectedStore)
   })
 })
-// npm test -- src/components/cards/user-cards.test.js
