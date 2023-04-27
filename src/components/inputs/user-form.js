@@ -41,7 +41,7 @@ function UserForm () {
   return (
     <div data-testid="user-form">
       <span
-        data-testId="error"
+        data-testid="error"
         style={{ visibility: error ? 'visible' : 'hidden' }}>
           Esta ação não existe
         </span>

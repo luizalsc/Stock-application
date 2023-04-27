@@ -18,6 +18,8 @@ function PortifolioForm ({ contributionValue, portifolioInfo }) {
   //     setState({...state, [event.target.name]: value})
   // }
   // ----------------------------------------------------
+  const [error, setError] = useState(false)
+
   const [wallet, setWallet] = useState([])
 
   const [contribution, setContribution] = useState({
@@ -45,7 +47,7 @@ function PortifolioForm ({ contributionValue, portifolioInfo }) {
     setStockInfos({ ticker, price })
 
     if (total === 100) {
-      alert('Você já usou todo seu aporte')
+      setError(true)
       event.target.disabled = true
     }
   }
@@ -59,34 +61,35 @@ function PortifolioForm ({ contributionValue, portifolioInfo }) {
       alert(`Digite um valor inteiro até ${100 - previousTotalValue}`)
       percentualInput.value = 100 - previousTotalValue
     } else if (previousTotalValue === 100) {
-      alert('Você já usou todo seu aporte')
+      setError(true)
       percentualInput.value = 0
       percentualInput.required = false
       percentualInput.disabled = true
     }
-
+    setError(false)
     setPercentual({ percentual: event.target.value })
   }
 
   const addToPortifolio = (event) => {
     const { value } = event.target
     const repeatedSotcks = portifolio.filter((item) => item.stockInfos.ticker === value)
-    const total = portifolio.reduce((acc, i) => acc + parseInt(i.percentual.percentual), 0)
+    const previousTotalValue = portifolio.reduce((acc, i) => acc + parseInt(i.percentual.percentual), 0)
+    const currentValue = previousTotalValue + parseInt(percentual.percentual)
 
     if (repeatedSotcks.length > 0) {
       alert(`Você já adicionou ${value}. Cada ação só pode ser adicionada uma única vez`)
       return
     }
-    if (total === 100) {
-      alert('Você já usou todo seu aporte')
+    if (currentValue === 100) {
+      setError(true)
       event.target.disabled = true
-      return
     }
     setPortifolio([...portifolio, { stockInfos, percentual }])
   }
 
   const handleSubmit = (event) => {
     event.preventDefault()
+    setError(false)
     const response = portifolioCalculator(contribution.amount, portifolio)
     setWallet(response)
     return (response)
@@ -94,7 +97,7 @@ function PortifolioForm ({ contributionValue, portifolioInfo }) {
 
   return (
     <>
-      <form onSubmit={handleSubmit} value={portifolioInfo}>
+      <form onSubmit={handleSubmit} value={portifolioInfo} role='form'>
 
         <label htmlFor="stocks">Selecione as ações desejadas</label>
         <br />
@@ -119,6 +122,11 @@ function PortifolioForm ({ contributionValue, portifolioInfo }) {
               <li>Nenhuma ação encontrada</li>
                 )}
           </select>
+          <span
+            data-testId="error"
+            style={{ visibility: error ? 'visible' : 'hidden' }}>
+            Você já usou todo seu aporte
+          </span>
           <input
             type="number"
             name="percentual"
@@ -130,6 +138,7 @@ function PortifolioForm ({ contributionValue, portifolioInfo }) {
           <button
             onClick={addToPortifolio}
             type="reset"
+            role="reset-add"
             value={stockInfos.ticker}
           >
             +
@@ -152,7 +161,7 @@ function PortifolioForm ({ contributionValue, portifolioInfo }) {
 
         <br />
         <br />
-        <button type="submit">Calcular</button>
+        <button type="submit" role="submit">Calcular</button>
         <br />
         <br />
         <br />

@@ -39,6 +39,7 @@ it('handles form submission correctly when fetch status is OK', async () => {
 
   // Fill in the input field with test data.
   fireEvent.change(inputFieldEl, { target: { value: 'AAPL' } })
+
   // Simulate a form submission.
   fireEvent.click(submitButton)
 
