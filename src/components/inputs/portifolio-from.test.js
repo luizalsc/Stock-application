@@ -1,5 +1,5 @@
 import {
-  fireEvent, render, screen, waitFor
+  fireEvent, render, screen
 } from '@testing-library/react'
 import configureStore from 'redux-mock-store'
 import { Provider } from 'react-redux'
