@@ -11,6 +11,7 @@ function UserForm () {
   const [inputs, setInputs] = useState({
     stocksTicker: ''
   })
+  const [error, setError] = useState(false)
 
   const handleIpuntChange = (event) => {
     setInputs({
@@ -26,10 +27,10 @@ function UserForm () {
       const stockDetails = await getTickerDetails(inputs.stocksTicker)
 
       if (newStock.status === 'NOT_FOUND') {
-        alert('Esta ação não existe')
+        setError(true)
         return
       }
-
+      setError(false)
       dispatch(renderStocks(newStock))
       dispatch(getStocksDetails(stockDetails))
     }
@@ -39,6 +40,11 @@ function UserForm () {
 
   return (
     <div data-testid="user-form">
+      <span
+        data-testid="error"
+        style={{ visibility: error ? 'visible' : 'hidden' }}>
+          Esta ação não existe
+        </span>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
