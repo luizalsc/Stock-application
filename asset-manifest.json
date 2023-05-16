@@ -1,0 +1,12 @@
+{
+  "files": {
+    "main.js": "/Stock-aplication/static/js/main.f89cee53.js",
+    "static/js/787.f37a13f7.chunk.js": "/Stock-aplication/static/js/787.f37a13f7.chunk.js",
+    "index.html": "/Stock-aplication/index.html",
+    "main.f89cee53.js.map": "/Stock-aplication/static/js/main.f89cee53.js.map",
+    "787.f37a13f7.chunk.js.map": "/Stock-aplication/static/js/787.f37a13f7.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.f89cee53.js"
+  ]
+}
