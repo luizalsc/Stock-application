@@ -4,7 +4,7 @@ import { Portifolio } from './portifolio'
 
 function AppRoutes () {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route exact path="/portifolio" element={<Portifolio />} />
