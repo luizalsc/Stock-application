@@ -39,24 +39,30 @@ function UserForm () {
   }
 
   return (
-    <div data-testid="user-form">
+    <div
+      data-testid="user-form"
+      className="flex flex-col">
       <span
         data-testid="error"
-        style={{ visibility: error ? 'visible' : 'hidden' }}>
-          Esta ação não existe
+        style={{ visibility: error ? 'visible' : 'hidden' }}
+        className="self-center text-sm font-sans text-red-700">
+          Esta ação não existe, pesquise uma sigla válida.
         </span>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="self-center">
         <input
           type="text"
           onChange={handleIpuntChange}
           value={inputs.stocksTicker}
           placeholder="AAPL"
+          className="rounded-md px-3 py-1.5 mr-3 mt-1 text-sm text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-sky-50"
         />
-        <button type="submit">
+        <button
+          type="submit"
+          className="self-center rounded-md bg-sky-800 px-1 py-1 w-32 text-base font-sans text-gray-50 ring-1 ring-inset ring-gray-500/10 transition ease-in-out hover:bg-sky-100 hover:text-sky-800">
           Pesquisar
         </button>
       </form>
-      <StockCard data-testid="stock-card" />
+      <StockCard />
     </div>
   )
 }
