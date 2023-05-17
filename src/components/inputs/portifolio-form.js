@@ -96,80 +96,78 @@ function PortifolioForm ({ contributionValue, portifolioInfo }) {
   }
 
   return (
-    <>
-      <form onSubmit={handleSubmit} value={portifolioInfo} role='form'>
-
-        <label htmlFor="stocks">Selecione as ações desejadas</label>
-        <br />
-        <div>
-          <select
-            name="ticker"
-            onChange={handleStockInfoChange}
-            defaultValue="-Selecione-"
-          >
-            <option value="-Selecione-" disabled>-Selecione-</option>
-            {userStocks.length > 0
-              ? (
-                  userStocks.map((stock, index) => (
-                <option key={index} value={`${stock.cardStocks.ticker} ${stock.stocksCLosePrice.close}`} name={stock.cardStocks.ticker}>
-                  {stock.cardStocks.ticker}
-                  {' '}
-                  -{stock.stocksCLosePrice.close}
-                </option>
-                  ))
-                )
-              : (
-              <li>Nenhuma ação encontrada</li>
-                )}
-          </select>
-          <span
-            data-testId="error"
-            style={{ visibility: error ? 'visible' : 'hidden' }}>
-            Você já usou todo seu aporte
-          </span>
-          <input
-            type="number"
-            name="percentual"
-            placeholder="100"
-            id="number"
-            onChange={handlePercentualChange}
-          />
-          <label htmlFor="number">%</label>
-          <button
-            onClick={addToPortifolio}
-            type="reset"
-            role="reset-add"
-            value={stockInfos.ticker}
-          >
-            +
-          </button>
-          <br />
-          <br />
-        </div>
-
-        <label htmlFor="contribution">Insira o valor que quer aportar</label>
-        <br />
-        <input
-          type="number"
-          onChange={handleContributionChange}
-          value={contributionValue}
-          placeholder="Valor total do aporte"
-          id="contribution"
-          name="amount"
-          required
-        />
-
-        <br />
-        <br />
-        <button type="submit" role="submit">Calcular</button>
-        <br />
-        <br />
-        <br />
-      </form>
-
+    <div className="grid grid-cols-3 gap-6 my-5 ">
+      <div className="col-span-1 min-w-fit">
+        <h1 className="text-xl font-semibold font-mono leading-6 text-red-800 bg-red-100 text-center py-1 mb-3 rounded-md">Monte sua aplicação</h1>
+        <form onSubmit={handleSubmit} value={portifolioInfo} role='form' className=" flex flex-col shrink-0 px-2">
+          <label htmlFor="stocks" className="text-base font-sans font-semibold text-gray-700">Selecione as ações desejadas</label>
+          <div className="flex flex-col rounded-md text-sm font-semibold text-gray-700 ">
+            <select
+              name="ticker"
+              onChange={handleStockInfoChange}
+              defaultValue="-Selecione-"
+              className="rounded-md px-3 py-2 text-sm text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-sky-50"
+            >
+              <option value="-Selecione-" disabled>-Selecione-</option>
+              {userStocks.length > 0
+                ? (
+                    userStocks.map((stock, index) => (
+                  <option key={index} value={`${stock.cardStocks.ticker} ${stock.stocksCLosePrice.close}`} name={stock.cardStocks.ticker}>
+                    {stock.cardStocks.ticker}
+                    {' '}
+                    -{stock.stocksCLosePrice.close}
+                  </option>
+                    ))
+                  )
+                : (
+                <li className="text-sm font-semibold text-gray-700">Nenhuma ação encontrada</li>
+                  )}
+            </select>
+            <span
+              data-testId="error"
+              style={{ visibility: error ? 'visible' : 'hidden' }}
+              className="text-xs font-sans text-red-700 pt-2">
+              Você já usou todo seu aporte
+            </span>
+            <p className="text-sm font-sans text-gray-700 pb-2">Informe o percentual de aporte dessa ação</p>
+            <div className="inline-flex items-baseline">
+              <input
+                type="number"
+                name="percentual"
+                placeholder="100"
+                id="number"
+                onChange={handlePercentualChange}
+                className="w-full rounded-md px-3 py-2 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-sky-50"
+              />
+              <label htmlFor="number" className="p-1 ml-2 text-base font-sans text-gray-700">%</label>
+            </div>
+            <button
+              onClick={addToPortifolio}
+              type="reset"
+              role="reset-add"
+              value={stockInfos.ticker}
+              className="rounded-md bg-gray-100 px-1 py-1 my-3 text-lg font-medium font-sans text-gray-700 ring-1 ring-inset ring-red-500/10 transition ease-in-out hover:bg-red-50 hover:text-red-700 duration-75"
+            >
+              Adicionar escolha
+            </button>
+            <label htmlFor="contribution" className="text-base font-sans font-semibold text-gray-700">Insira o valor que quer aportar</label>
+            <input
+              type="number"
+              onChange={handleContributionChange}
+              value={contributionValue}
+              placeholder="Valor total do aporte"
+              id="contribution"
+              name="amount"
+              required
+              className="rounded-md px-3 py-2 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-sky-50"
+            />
+            <button type="submit" role="submit" className="rounded-md bg-red-900 px-1 py-1 my-3 text-lg font-medium font-sans text-slate-50 ring-1 ring-inset ring-gray-500/10 transition ease-in-out hover:bg-gray-100 hover:text-red-700 duration-75">Calcular</button>
+          </div>
+        </form>
+      </div>
       <Wallet portifolioInfo={portifolio} />
       <Calculator inputsInfo={wallet} />
-    </>
+    </div>
   )
 }
 

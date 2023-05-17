@@ -21,19 +21,19 @@ function StockCard () {
 
   if (initialStock.cardStocks === undefined) {
     return (
-      <p>Pesquise uma sigla de ação</p>
+      <p className="text-2xl font-semibold font-mono leading-6 text-sky-800 p-2 mt-2">Pesquise uma sigla de ação</p>
     )
   }
   return (
-    <section>
-      <h1>{initialStock.cardStocks.name}</h1>
-      <h4>{initialStock.cardStocks.ticker}</h4>
-      <p>{initialStock.cardStocks.description}</p>
-      <div>
-        <h3>Preço da ação</h3>
-        <p>{initialStock.stocksCLosePrice.close}</p>
+    <section className="flex flex-col justify-between divide-y divide-gray-200 w-3/4  bg-gray-50 rounded-md shadow-md p-2 mx-auto my-3 ">
+      <h1 className="text-xl font-semibold font-mono leading-6 text-sky-800 p-2 mt-2">{initialStock.cardStocks.name}</h1>
+      <h4 className="text-base font-semibold font-mono leading-5 text-sky-800 p-2">{initialStock.cardStocks.ticker}</h4>
+      <p className="text-base leading-5 text-gray-500 p-4">{initialStock.cardStocks.description}</p>
+      <div className="flex justify-between p-2">
+        <h4 className="text-base font-semibold font-mono leading-6 text-sky-800 self-center px-2">Preço da ação</h4>
+        <p className="text-xl leading-5 text-gray-500 self-center">{initialStock.stocksCLosePrice.close}</p>
+        <button onClick={handleClick} value={initialStock.cardStocks.ticker} className="self-center rounded-md bg-sky-800 w-1/3 text-base font-sans text-gray-50 ring-1 ring-inset ring-gray-500/10 transition ease-in-out  hover:scale-90 hover:bg-sky-100 hover:text-sky-800">Adicionar ação à minha carteira</button>
       </div>
-      <button onClick={handleClick} value={initialStock.cardStocks.ticker}>Adicionar ação à minha carteira</button>
 
     </section>
   )
