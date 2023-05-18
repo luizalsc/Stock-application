@@ -21,7 +21,7 @@ function StockCard () {
 
   if (initialStock.cardStocks === undefined) {
     return (
-      <p className="text-2xl font-semibold font-mono leading-6 text-sky-800 p-2 mt-2">Pesquise uma sigla de ação</p>
+      <p className="text-2xl text-center font-semibold font-mono leading-6 text-sky-800 p-2 mt-2">Pesquise uma sigla de ação</p>
     )
   }
   return (
