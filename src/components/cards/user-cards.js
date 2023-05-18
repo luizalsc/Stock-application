@@ -8,11 +8,11 @@ function StocksPortifolio () {
   return (
     <div className="m-auto">
       <h1 className="text-2xl font-semibold font-mono leading-6 text-sky-800 p-2 mt-2">Carteira de Ações</h1>
-      <ul className=" flex place-content-center flex-wrap py-1 px-1">
+      <ul className="flex place-content-center flex-wrap py-1 px-1">
         {userStocks.length > 0
           ? (
               userStocks.map((stock, index) => (
-            <li key={index} name={stock.name} role="heading3" className="flex flex-col justify-between divide-y divide-sky-200 w-72 bg-sky-50 rounded-md shadow-md p-3 m-5 ">
+            <li key={index} name={stock.name} role="heading3" className="flex flex-col justify-between divide-y divide-sky-200 w-72 bg-sky-50 rounded-md shadow-md p-3 my-2 sm:m-5 ">
               <h3 className="text-base font-semibold font-mono leading-6 text-sky-800 p-2">
                 {stock.cardStocks.name}
                 {' '}

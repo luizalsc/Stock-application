@@ -9,9 +9,6 @@ module.exports = {
       serif: ['Merriweather', 'serif']
     },
     extend: {
-      screens: {
-        xs: '375px'
-      }
     }
   },
   plugins: []

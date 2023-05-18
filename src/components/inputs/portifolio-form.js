@@ -96,8 +96,8 @@ function PortifolioForm ({ contributionValue, portifolioInfo }) {
   }
 
   return (
-    <div className="grid grid-cols-3 gap-6 my-5 ">
-      <div className="col-span-1 min-w-fit">
+    <div className="sm:grid sm:grid-cols-3 sm:gap-6 my-5 ">
+      <div className="sm:col-span-1 min-w-fit">
         <h1 className="text-xl font-semibold font-mono leading-6 text-red-800 bg-red-100 text-center py-1 mb-3 rounded-md">Monte sua aplicação</h1>
         <form onSubmit={handleSubmit} value={portifolioInfo} role='form' className=" flex flex-col shrink-0 px-2">
           <label htmlFor="stocks" className="text-base font-sans font-semibold text-gray-700">Selecione as ações desejadas</label>
