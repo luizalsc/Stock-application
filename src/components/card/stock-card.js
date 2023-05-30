@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux'
-import { addStocksToPortifolio } from '../../data/store/actions/stock-portifolio'
+import { addStocksToPortifolio } from '../../data/store/actions/index'
 
 function StockCard () {
   const initialStock = {

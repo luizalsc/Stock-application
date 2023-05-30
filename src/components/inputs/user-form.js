@@ -1,7 +1,6 @@
 import { useDispatch } from 'react-redux'
 import { getTickers, getTickerDetails } from '../../data/services/fetch-api'
-import { renderStocks } from '../../data/store/actions/render-stock'
-import { getStocksDetails } from '../../data/store/actions/render-stock-details'
+import { renderStocks, getStocksDetails } from '../../data/store/actions/index'
 import { StockCard } from '../card/stock-card'
 import { useState } from 'react'
 

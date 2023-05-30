@@ -1,9 +1,14 @@
+import {
+  ADD_STOCK_TO_PORTIFOLIO,
+  ADD_DELETED_STOCK
+} from '../actions'
+
 export default function reducer (state = [], action) {
   switch (action.type) {
-    case 'ADD_STOCK_TO_PORTIFOLIO': {
+    case ADD_STOCK_TO_PORTIFOLIO: {
       return [...state, action.payload]
     }
-    case 'ADD_DELETED_STOCK': {
+    case ADD_DELETED_STOCK: {
       return [...state.filter((stock, index) => index !== action.payload)]
     }
   }
