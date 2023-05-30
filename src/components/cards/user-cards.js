@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteSotck } from '../../data/store/actions/remove-stock'
+import { deleteSotck } from '../../data/store/actions/index'
 
 function StocksPortifolio () {
   const userStocks = useSelector((state) => state.userStocks)
