@@ -1,20 +1,36 @@
-const previousDate = new Date().setHours(-1)
-export const yesterdayDate = new Date(previousDate)
-let day = yesterdayDate.getDate()
+import moment from 'moment/moment'
 
-function formatPreviousDate (previousDate, format) {
-  if (previousDate.getDay() === 0) {
-    day = previousDate.getDate() - 2
-  } else if (previousDate.getDay() === 6) {
-    day = previousDate.getDate() - 1
+// export const yesterday = moment(new Date(), 'DD-MM-YYYY').add(-1, 'days').format('YYYY-MM-DD')
+
+export const yesterday = moment(new Date(), 'DD-MM-YYYY').add(-1, 'days')
+export const formatedYesterdayDate = yesterday.format('YYYY-MM-DD')
+export const dayOfTheWeek = moment(new Date(), 'DD-MM-YYYY').format('E')
+
+console.log(formatedYesterdayDate, dayOfTheWeek)
+
+function formatDate (dayOfTheWeek) {
+  if (dayOfTheWeek === '7') {
+    const day = moment(new Date(), 'DD-MM-YYYY').add(-2, 'days').format('YYYY-MM-DD')
+    console.log(day)
+    return (day)
+  } else if (dayOfTheWeek === '1') {
+    const day = moment(new Date(), 'DD-MM-YYYY').add(-3, 'days').format('YYYY-MM-DD')
+    return (day)
+  } else {
+    const day = formatedYesterdayDate
+    return (day)
   }
-  const month = previousDate.getMonth() + 1
-  const map = {
-    mm: `0${month}`.toString().slice(-2),
-    dd: `0${day}`.toString().slice(-2),
-    aaaa: previousDate.getFullYear()
-  }
-  return (format.replace(/mm|dd|aaaa/gi, (matched) => map[matched]))
 }
 
-export { formatPreviousDate }
+export { formatDate }
+
+// function momentTest () {
+//   const now = moment(new Date(), 'DD-MM-YYYY').format()
+//   const yesterday = moment(new Date(), 'DD-MM-YYYY').add(-1, 'days').format('YYYY-MM-DD')
+//   const dayOfTheWeek = moment(yesterday).format('E')
+//   console.log('data do dia de hoje - ', now)
+//   console.log('data de ontem - ', yesterday)
+//   console.log('num do dia da semana - ', dayOfTheWeek)
+// }
+
+// momentTest()
