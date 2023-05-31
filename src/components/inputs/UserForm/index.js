@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux'
-import { getTickers, getTickerDetails } from '../../data/services/Polygon-API/index'
-import { renderStocks, getStocksDetails } from '../../data/store/actions/index'
-import { StockCard } from '../card/stock-card'
+import { getTickers, getTickerDetails } from '../../../data/services/Polygon-API/index'
+import { renderStocks, getStocksDetails } from '../../../data/store/actions/index'
+import { StockCard } from '../../StockCard/index.js'
 import { useState } from 'react'
 
 function UserForm () {

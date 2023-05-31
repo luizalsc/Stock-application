@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
-import { Calculator, portifolioCalculator } from './index'
+import { Calculator, portfolioCalculator } from '../Calculator/index'
 
 describe('Renders StockCard correctly', () => {
   it('Renders all stocks and their quantity', () => {
@@ -25,7 +25,7 @@ describe('Renders StockCard correctly', () => {
   // recommended wallet is the stocks and their quantity that the user should
   // buy so it has the desired financial assets percentage
   it('returns the recommended wallet', () => {
-    const myPortifolio = [
+    const myPortfolio = [
       {
         stockInfos: { price: 50, ticker: 'A' },
         percentual: { percentual: 50 }
@@ -36,7 +36,7 @@ describe('Renders StockCard correctly', () => {
       }
     ]
     const amount = 1000
-    const recommendedWallet = portifolioCalculator(amount, myPortifolio)
+    const recommendedWallet = portfolioCalculator(amount, myPortfolio)
 
     expect(recommendedWallet).toStrictEqual(['10 ações da A', '8 ações da B'])
   })

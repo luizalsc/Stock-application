@@ -3,7 +3,7 @@ import {
 } from '@testing-library/react'
 import configureStore from 'redux-mock-store'
 import { Provider } from 'react-redux'
-import { PortifolioForm } from './portifolio-form'
+import { PortifolioForm } from '.'
 
 function createMockStore () {
   const mockStore = configureStore([])

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
-import { UserForm } from '../components/inputs/user-form'
-import { StocksPortifolio } from '../components/cards/user-cards'
+import { UserForm } from '../components/inputs/UserForm/index'
+import { StocksPortifolio } from '../components/StocksPortfolio/index'
 
 function Home () {
   return (

@@ -25,7 +25,7 @@ function Calculator (props) {
   )
 }
 
-export function portifolioCalculator (amount, portifolio) {
+export function portfolioCalculator (amount, portifolio) {
   const response = portifolio.map((stock) => (
     (parseInt(amount) * parseInt(stock.percentual.percentual) / 100) / parseInt(stock.stockInfos.price)))
   const result = response.map((stocksUnits) => parseInt(stocksUnits))
