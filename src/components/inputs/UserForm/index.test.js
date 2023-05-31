@@ -2,8 +2,8 @@ import {
   fireEvent, render, screen, act
 } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import { UserForm } from './user-form'
-import { store } from '../../data/store/store'
+import { UserForm } from '.'
+import { store } from '../../../data/store/store'
 import PropTypes from 'prop-types'
 import { getTickers, getTickerDetails } from '../../data/services/fetch-api'
 

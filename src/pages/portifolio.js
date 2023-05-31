@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
-import { StocksPortifolio } from '../components/cards/user-cards'
-import { PortifolioForm } from '../components/inputs/portifolio-form'
+import { StocksPortifolio } from '../components/StocksPortfolio/index'
+import { PortifolioForm } from '../components/inputs/PortfolioForm/index'
 
 function Portifolio () {
   return (

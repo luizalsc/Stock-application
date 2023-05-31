@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 import { useState } from 'react'
-import { Wallet } from '../wallet'
-import { Calculator, portifolioCalculator } from '../calculator'
+import { Wallet } from '../../Wallet'
+import { Calculator, portfolioCalculator } from '../../Calculator/index'
 import PropTypes from 'prop-types'
 
 function PortifolioForm ({ contributionValue, portifolioInfo }) {
@@ -90,7 +90,7 @@ function PortifolioForm ({ contributionValue, portifolioInfo }) {
   const handleSubmit = (event) => {
     event.preventDefault()
     setError(false)
-    const response = portifolioCalculator(contribution.amount, portifolio)
+    const response = portfolioCalculator(contribution.amount, portifolio)
     setWallet(response)
     return (response)
   }
