@@ -22,7 +22,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "start": "env-cmd -f ./.env react-scripts start",
-    "build": "react-scripts build",
+    "build": "env-cmd -f ./.env.production react-scripts build",
     "test": "jest",
     "coverage": "jest --coverage",
     "eject": "react-scripts eject",
