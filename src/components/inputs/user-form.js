@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux'
-import { getTickers, getTickerDetails } from '../../data/services/fetch-api'
+import { getTickers, getTickerDetails } from '../../data/services/Polygon-API/index'
 import { renderStocks, getStocksDetails } from '../../data/store/actions/index'
 import { StockCard } from '../card/stock-card'
 import { useState } from 'react'
