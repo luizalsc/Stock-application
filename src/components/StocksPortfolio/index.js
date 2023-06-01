@@ -12,7 +12,7 @@ function StocksPortfolio () {
         {userStocks.length > 0
           ? (
               userStocks.map((stock, index) => (
-            <li key={index} name={stock.name} role="heading3" className="flex flex-col justify-between divide-y divide-sky-200 w-72 bg-sky-50 rounded-md shadow-md p-3 my-2 sm:m-5 ">
+            <li key={stock.name} name={stock.name} role="heading3" className="flex flex-col justify-between divide-y divide-sky-200 w-72 bg-sky-50 rounded-md shadow-md p-3 my-2 sm:m-5 ">
               <h3 className="text-base font-semibold font-mono leading-6 text-sky-800 p-2">
                 {stock.cardStocks.name}
                 {' '}
