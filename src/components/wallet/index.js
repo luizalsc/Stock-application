@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 function Wallet (props) {
   return (
     <div className="sm:col-span-1 sm:min-w-fit">
-      <h1 className="text-xl font-semibold font-mono leading-6 text-red-800 bg-red-100 text-center py-1 rounded-md">Ações escolhidas</h1>
+      <h1 className="text-xl font-mono h1_red">Ações escolhidas</h1>
       <div className="px-5">
         <ul className="grid sm:grid-cols-2 sm:grid-rows-5 gap-1 divide-y divide-gray-100 sm:grid-cols-1">
           {props.portifolioInfo.length > 0
