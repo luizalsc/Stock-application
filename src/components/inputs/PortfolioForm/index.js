@@ -173,7 +173,7 @@ function PortifolioForm ({ contributionValue, portifolioInfo }) {
         </form>
       </div>
       <Wallet portifolioInfo={portifolio} />
-      <Calculator inputsInfo={wallet} />
+      <Calculator usersWallet={wallet} />
     </div>
   )
 }

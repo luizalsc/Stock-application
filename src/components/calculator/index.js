@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 
-function Calculator (props) {
-  const usersWallet = props.inputsInfo
+function Calculator ({ usersWallet }) {
   return (
     <div className="col-span-1 min-w-fit">
       <h1 className="text-xl font-mono h1_red">Compra sugerida</h1>
@@ -9,7 +8,7 @@ function Calculator (props) {
         ? (
             <div className="px-2">
               <p className="text-base mt-3 font-sans font-semibold text-gray-700">Você deve comprar:</p>
-              <ul className="grid sm:grid-cols-2 md:grid-rows-5 gap-3 md:gap-1 divide-y divide-gray-100">
+              <ul className="grid sm:grid-cols-2 md:grid-rows-5 gap-3 md:gap-1">
                 {usersWallet.map((units, index) => (
                   <li key={index} className="sm:py-5">
                     <p className="text-sm font-semibold text-gray-900">{units}</p>
@@ -37,7 +36,7 @@ export function portfolioCalculator (amount, portifolio) {
 }
 
 Calculator.propTypes = {
-  inputsInfo: PropTypes.arrayOf(PropTypes.string)
+  usersWallet: PropTypes.arrayOf(PropTypes.string)
 }
 
 export { Calculator }
