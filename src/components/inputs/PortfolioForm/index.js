@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Wallet } from '../../Wallet'
 import { Calculator, portfolioCalculator } from '../../Calculator/index'
 import PropTypes from 'prop-types'
+import { Button } from '../../Button'
 
 function PortifolioForm ({ contributionValue, portifolioInfo }) {
   const userStocks = useSelector((state) => state.userStocks)
@@ -98,15 +99,26 @@ function PortifolioForm ({ contributionValue, portifolioInfo }) {
   return (
     <div className="sm:grid sm:grid-cols-3 sm:gap-6 my-5 ">
       <div className="sm:col-span-1 min-w-fit">
-        <h1 className="text-xl font-semibold font-mono leading-6 text-red-800 bg-red-100 text-center py-1 mb-3 rounded-md">Monte sua aplicação</h1>
+        <h1 className="text-xl h1_red mb-3">Monte sua aplicação</h1>
         <form onSubmit={handleSubmit} value={portifolioInfo} role='form' className=" flex flex-col shrink-0 px-2">
-          <label htmlFor="stocks" className="text-base font-sans font-semibold text-gray-700">Selecione as ações desejadas</label>
+          <label htmlFor="contribution">Insira o valor total que deseja aportar</label>
+              <input
+                type="number"
+                onChange={handleContributionChange}
+                value={contributionValue}
+                placeholder="Valor total do aporte"
+                id="contribution"
+                name="amount"
+                required
+                className="rounded-md px-3 py-2.5 mb-5 text-xs font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+              />
+          <label htmlFor="stocks">Selecione a ação desejada</label>
           <div className="flex flex-col rounded-md text-sm font-semibold text-gray-700 ">
             <select
-              name="ticker"
+              name="stocks"
               onChange={handleStockInfoChange}
               defaultValue="-Selecione-"
-              className="rounded-md px-3 py-2 text-sm text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-sky-50"
+              className="rounded-md px-3 py-2 text-sm text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
             >
               <option value="-Selecione-" disabled>-Selecione-</option>
               {userStocks.length > 0
@@ -129,7 +141,7 @@ function PortifolioForm ({ contributionValue, portifolioInfo }) {
               className="text-xs font-sans text-red-700 pt-2">
               Você já usou todo seu aporte
             </span>
-            <p className="text-sm font-sans text-gray-700 pb-2">Informe o percentual de aporte dessa ação</p>
+            <label htmlFor='number'>Insira o percentual de aporte da ação escolhida</label>
             <div className="inline-flex items-baseline">
               <input
                 type="number"
@@ -137,31 +149,26 @@ function PortifolioForm ({ contributionValue, portifolioInfo }) {
                 placeholder="100"
                 id="number"
                 onChange={handlePercentualChange}
-                className="w-full rounded-md px-3 py-2 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-sky-50"
+                className="w-full rounded-md px-3 py-2 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
               />
-              <label htmlFor="number" className="p-1 ml-2 text-base font-sans text-gray-700">%</label>
+              <label htmlFor="number" className="pl-1">%</label>
             </div>
-            <button
+            <Button
               onClick={addToPortifolio}
               type="reset"
               role="reset-add"
               value={stockInfos.ticker}
-              className="rounded-md bg-gray-100 px-1 py-1 my-3 text-lg font-medium font-sans text-gray-700 ring-1 ring-inset ring-red-500/10 transition ease-in-out hover:bg-red-50 hover:text-red-700 duration-75"
+              className="bg-gray-100 px-3 py-1 w-full my-3 text-lg text-xs text-gray-700 ring-red-500/10 hover:bg-red-50 hover:text-red-700 duration-75"
             >
-              Adicionar escolha
-            </button>
-            <label htmlFor="contribution" className="text-base font-sans font-semibold text-gray-700">Insira o valor que quer aportar</label>
-            <input
-              type="number"
-              onChange={handleContributionChange}
-              value={contributionValue}
-              placeholder="Valor total do aporte"
-              id="contribution"
-              name="amount"
-              required
-              className="rounded-md px-3 py-2 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-sky-50"
-            />
-            <button type="submit" role="submit" className="rounded-md bg-red-900 px-1 py-1 my-3 text-lg font-medium font-sans text-slate-50 ring-1 ring-inset ring-gray-500/10 transition ease-in-out hover:bg-gray-100 hover:text-red-700 duration-75">Calcular</button>
+              Adicionar esta escolha
+            </Button>
+
+            <Button
+              type="submit"
+              role="submit"
+              className="bg-red-900 w-full px-1 py-1 my-3 text-lg font-medium text-slate-50 ring-gray-500/10 hover:bg-gray-100 hover:text-red-700 duration-75">
+                Calcular
+            </Button>
           </div>
         </form>
       </div>

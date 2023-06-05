@@ -4,7 +4,7 @@ function Calculator (props) {
   const usersWallet = props.inputsInfo
   return (
     <div className="col-span-1 min-w-fit">
-      <h1 className="text-xl font-semibold font-mono leading-6 text-red-800 bg-red-100 text-center py-1 rounded-md">Compra sugerida</h1>
+      <h1 className="text-xl font-mono h1_red">Compra sugerida</h1>
       {usersWallet.length > 0
         ? (
             <div className="px-2">

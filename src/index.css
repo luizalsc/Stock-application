@@ -1,3 +1,33 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  p {
+    @apply sm:text-base text-xs leading-5 text-gray-500 p-4;
+  }
+  h1 {
+    @apply font-semibold leading-6
+  }
+  label {
+    @apply text-xs font-sans font-semibold text-gray-700 py-1;
+  }
+  button {
+    @apply rounded-md font-sans ring-1 ring-inset transition ease-in-out
+  }
+}
+
+@layer components {
+  .h1_blue {
+      @apply text-sky-800;
+  }
+
+  .h1_red {
+    @apply text-red-800 bg-red-100 text-center py-1 rounded-md;
+  }
+
+  .link {
+    @apply rounded-md bg-sky-800 px-2 py-2 text-lg font-medium font-sans text-gray-50 ring-1 ring-inset ring-gray-500/10 transition ease-in-out hover:bg-gray-100 hover:text-sky-800 duration-75
+  }
+}
+
