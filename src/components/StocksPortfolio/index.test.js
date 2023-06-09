@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import configureStore from 'redux-mock-store'
-import { StocksPortifolio } from '.'
+import { StocksPortfolio } from './index'
 import { deleteSotck } from '../../data/store/actions/index'
 import reducer from '../../data/store/reducers/stock-portifolio'
 
@@ -22,10 +22,10 @@ describe('Renders StockCard correctly', () => {
     store.getState().userStocks = []
     render(
       <Provider store={store}>
-        <StocksPortifolio />
+        <StocksPortfolio />
       </Provider>
     )
-    const defaultMessage = screen.getByText(/Nenhum produto encontrado/i)
+    const defaultMessage = screen.getByText(/Nenhuma ação encontrada/i)
     expect(defaultMessage).toBeInTheDocument()
   })
 
@@ -33,7 +33,7 @@ describe('Renders StockCard correctly', () => {
     const store = createMockStore()
     render(
       <Provider store={store}>
-        <StocksPortifolio />
+        <StocksPortfolio />
       </Provider>
     )
 
@@ -48,7 +48,7 @@ describe('Renders StockCard correctly', () => {
     const store = createMockStore()
     render(
       <Provider store={store}>
-        <StocksPortifolio />
+        <StocksPortfolio />
       </Provider>
     )
 
@@ -66,7 +66,7 @@ describe('Renders StockCard correctly', () => {
     const store = createMockStore()
     render(
       <Provider store={store}>
-        <StocksPortifolio />
+        <StocksPortfolio />
       </Provider>
     )
     const buttonEl2 = screen.getAllByRole('button')[1]
@@ -84,7 +84,7 @@ describe('Renders StockCard correctly', () => {
 
     render(
       <Provider store={store}>
-        <StocksPortifolio />
+        <StocksPortfolio />
       </Provider>
     )
     const expectedStock = {
@@ -109,7 +109,7 @@ describe('Renders StockCard correctly', () => {
 
     render(
       <Provider store={store}>
-        <StocksPortifolio />
+        <StocksPortfolio />
       </Provider>
     )
     const expectedStock = {
@@ -133,7 +133,7 @@ describe('Renders StockCard correctly', () => {
     const store = createMockStore()
     render(
       <Provider store={store}>
-        <StocksPortifolio />
+        <StocksPortfolio />
       </Provider>
     )
 
@@ -153,7 +153,7 @@ describe('Renders StockCard correctly', () => {
     const store = createMockStore()
     render(
       <Provider store={store}>
-        <StocksPortifolio />
+        <StocksPortfolio />
       </Provider>
     )
 

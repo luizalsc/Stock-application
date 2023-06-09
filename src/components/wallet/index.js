@@ -8,7 +8,7 @@ function Wallet ({ portifolioInfo }) {
         <ul className="grid sm:grid-cols-2 sm:grid-rows-5 gap-1 sm:grid-cols-1">
           {portifolioInfo.length > 0
             ? (
-                portifolioInfo.map((stock) => (
+                portifolioInfo.map((stock, index) => (
               <li key={stock.stockInfos.ticker} value={stock.stockInfos.ticker} className="sm:col-span-1 sm:row-span-1 py-2 sm:py-5">
                 <p className="text-sm font-semibold leading-6 text-gray-900">
                   {stock.stockInfos.ticker}

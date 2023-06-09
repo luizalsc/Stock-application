@@ -11,7 +11,7 @@ describe('Renders StockCard correctly', () => {
     ]
 
     render(
-      <Calculator inputsInfo={userMocksWallet} />
+      <Calculator usersWallet={userMocksWallet} />
     )
 
     const listItems = screen.getAllByRole('listitem')

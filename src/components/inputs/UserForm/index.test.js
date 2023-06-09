@@ -5,9 +5,9 @@ import { Provider } from 'react-redux'
 import { UserForm } from '.'
 import { store } from '../../../data/store/store'
 import PropTypes from 'prop-types'
-import { getTickers, getTickerDetails } from '../../data/services/fetch-api'
+import { getTickerDetails, getTickers } from '../../../data/services/Polygon-API'
 
-jest.mock('../../data/services/fetch-api', () => ({
+jest.mock('../../../data/services/Polygon-API', () => ({
   getTickers: jest.fn(),
   getTickerDetails: jest.fn()
 }))
@@ -18,7 +18,7 @@ function ReduxProvider ({ children }) {
 
 it('stock research should be rendered', () => {
   render(<UserForm />, { wrapper: ReduxProvider })
-  const inputFieldEl = screen.getByPlaceholderText(/aapl/i)
+  const inputFieldEl = screen.getByPlaceholderText(/SIGLA/i)
   expect(inputFieldEl).toBeInTheDocument()
 })
 
@@ -34,7 +34,7 @@ it('handles form submission correctly when fetch status is OK', async () => {
 
   render(<UserForm />, { wrapper: ReduxProvider })
 
-  const inputFieldEl = screen.getByPlaceholderText('AAPL')
+  const inputFieldEl = screen.getByPlaceholderText(/SIGLA/i)
   const submitButton = screen.getByText('Pesquisar')
 
   // Fill in the input field with test data.
@@ -58,7 +58,7 @@ it('renders error when fetch status is NOT FOUND', async () => {
 
   render(<UserForm />, { wrapper: ReduxProvider })
 
-  const inputFieldEl = screen.getByPlaceholderText('AAPL')
+  const inputFieldEl = screen.getByPlaceholderText(/SIGLA/i)
   const submitButton = screen.getByText('Pesquisar')
   const errorEl = await screen.getByTestId('error')
 

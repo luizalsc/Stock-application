@@ -1,8 +1,8 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import configureStore from 'redux-mock-store'
-import { StockCard } from './stock-card'
-import { addStocksToPortifolio } from '../../data/store/actions/stock-portifolio'
+import { StockCard } from './index.js'
+import { addStocksToPortifolio } from '../../data/store/actions/index.js'
 import reducer from '../../data/store/reducers/stock-portifolio'
 
 function createMockStore () {

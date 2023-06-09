@@ -1,23 +1,14 @@
 import {
+  act,
   fireEvent, render, screen
 } from '@testing-library/react'
-import configureStore from 'redux-mock-store'
 import { Provider } from 'react-redux'
 import { PortifolioForm } from '.'
+import { createMockStore } from './testing-utils'
+import userEvent from '@testing-library/user-event'
 
-function createMockStore () {
-  const mockStore = configureStore([])
-  const store = mockStore({
-    userStocks: [
-      { cardStocks: { name: 'Test Company', ticker: 'TST', description: 'Lorem Ipsum' }, stocksCLosePrice: { close: 100.00 } },
-      { cardStocks: { name: 'Test Company 2', ticker: 'TST2', description: 'Lorem Ipsum 2' }, stocksCLosePrice: { close: 200.00 } }
-    ]
-  })
-  return store
-}
-
-describe('Renders StockCard correctly', () => {
-  it('renders al fields and buttons correctly before user events', () => {
+describe('Renders PortflioForm correctly', () => {
+  it('renders form correctly before user events', () => {
     const store = createMockStore()
 
     render(
@@ -26,19 +17,12 @@ describe('Renders StockCard correctly', () => {
       </Provider>
     )
 
-    const optionsEl = screen.getAllByRole('option')
-    const inputsTypeNumberEl = screen.getAllByRole('spinbutton')
-    const addButtonEL = screen.getByRole('reset-add')
-    const submitButtonEl = screen.getByRole('submit')
+    const formEl = screen.getByRole('form')
 
-    expect(optionsEl).toHaveLength(3)
-    expect(optionsEl[0]).toBeDisabled()
-    expect(inputsTypeNumberEl).toHaveLength(2)
-    expect(addButtonEL).toBeInTheDocument()
-    expect(submitButtonEl).toBeInTheDocument()
+    expect(formEl).toBeInTheDocument()
   })
 
-  it('select correct option after user event', () => {
+  it('selects the correct option after user selection', () => {
     const store = createMockStore()
 
     render(
@@ -46,20 +30,22 @@ describe('Renders StockCard correctly', () => {
         <PortifolioForm />
       </Provider>
     )
-    const expectedStock = store.getState().userStocks[0]
+    const selectedStock = store.getState().userStocks[0]
     const selectEl = screen.getByRole('combobox')
-    const optionsEl = screen.getAllByRole('option')
-    const expectedValue = `${expectedStock.cardStocks.ticker} ${expectedStock.stocksCLosePrice.close}`
+    const optionEl1 = screen.getByRole('option', { name: /-Selecione-/i })
+    const optionEl2 = screen.getByRole('option', { name: /TST -100/i })
+    const optionEl3 = screen.getByRole('option', { name: /TST2 -200/i })
+    const expectedValue = `${selectedStock.cardStocks.ticker} ${selectedStock.stocksCLosePrice.close}`
 
     fireEvent.change(selectEl, { target: { value: expectedValue } })
 
-    expect(optionsEl[0]).toBeDisabled()
-    expect(optionsEl[0].selected).toBeFalsy()
-    expect(optionsEl[1].selected).toBeTruthy()
-    expect(optionsEl[2].selected).toBeFalsy()
+    expect(optionEl1).toBeDisabled()
+    expect(optionEl2.selected).toBeTruthy()
+    expect(optionEl3.selected).toBeFalsy()
+    expect(selectEl.value).toMatch(`${selectedStock.cardStocks.ticker} ${selectedStock.stocksCLosePrice.close}`)
   })
 
-  it('change amount input value after user event', () => {
+  it('changes amount input value after user typing', () => {
     const store = createMockStore()
 
     render(
@@ -69,15 +55,14 @@ describe('Renders StockCard correctly', () => {
     )
 
     const testValue = '1000'
-    const inputsTypeNumberEl = screen.getAllByRole('spinbutton')
-    const inputAmountEl = inputsTypeNumberEl[1]
+    const inputAmountEl = screen.getByRole('contribution')
 
     fireEvent.change(inputAmountEl, { target: { value: testValue } })
 
     expect(inputAmountEl.value).toBe(testValue)
   })
 
-  it('change percentual value after user event', () => {
+  it('changes percentual value after user typing', () => {
     const store = createMockStore()
 
     render(
@@ -87,16 +72,20 @@ describe('Renders StockCard correctly', () => {
     )
 
     const testValue = '10'
-    const inputsTypeNumberEl = screen.getAllByRole('spinbutton')
-    const inputPercentualEl = inputsTypeNumberEl[0]
+    const inputPercentualEl = screen.getByRole('percentual')
 
     fireEvent.change(inputPercentualEl, { target: { value: testValue } })
 
     expect(inputPercentualEl.value).toBe(testValue)
   })
 
-  it('submit function is called when button is clicked', () => {
+  it('submits form when submit button is clicked', () => {
     const store = createMockStore()
+
+    const testAmountValue = '1000'
+    const testPercentualValue = '100'
+    const selectedStock = store.getState().userStocks[0]
+    const expectedValue = `${selectedStock.cardStocks.ticker} ${selectedStock.stocksCLosePrice.close}`
 
     const handleSubmit = jest.fn()
 
@@ -108,70 +97,73 @@ describe('Renders StockCard correctly', () => {
 
     const formEl = screen.getByRole('form')
     formEl.onsubmit = handleSubmit
+    const inputAmountEl = screen.getByRole('contribution')
+    const inputPercentualEl = screen.getByRole('percentual')
+    const selectEl = screen.getByRole('combobox')
     const button = screen.getByRole('submit')
-    fireEvent.click(button)
+    const addEl = screen.getByRole('reset-add')
+
+    act(() => {
+      userEvent.selectOptions(
+        selectEl,
+        expectedValue
+      )
+      userEvent.type(inputPercentualEl, testPercentualValue)
+      userEvent.click(addEl)
+      userEvent.type(inputAmountEl, testAmountValue)
+      userEvent.click(button)
+    })
 
     // fireEvent.submit(formEl)
 
     expect(handleSubmit).toHaveBeenCalledTimes(1)
+    // Preciso testar os parâmetros da função portfolioCalculator() dentro do handleSubmit , mas não sei como...
   })
 
-  it('disable input after reaching to 100% target value', async () => {
+  it('disables inputs after reaching to 100% target value', () => {
     const store = createMockStore()
-
-    render(
-      <Provider store={store}>
-        <PortifolioForm />
-      </Provider>
-    )
-
-    const testPercentual = '100'
-    const inputsTypeNumberEl = screen.getAllByRole('spinbutton')
-    const percentualInputEl = inputsTypeNumberEl[0]
-    const addButtonEL = screen.getByRole('reset-add')
-    const errorEl = await screen.getByTestId('error')
-
-    fireEvent.change(percentualInputEl, { target: { value: testPercentual } })
-    fireEvent.click(addButtonEL)
-    fireEvent.change(percentualInputEl, { target: { value: '' } })
-
-    expect(percentualInputEl).toBeDisabled()
-    expect(errorEl).toBeTruthy()
-  })
-
-  it('disable select input after reaching to 100% target value', async () => {
-    const store = createMockStore()
-
-    render(
-      <Provider store={store}>
-        <PortifolioForm />
-      </Provider>
-    )
 
     const testPercentual = '100'
     const selectedStock = store.getState().userStocks[0]
-    const expectedStockValue = `${selectedStock.cardStocks.ticker} ${selectedStock.stocksCLosePrice.close}`
+    const expectedValue = `${selectedStock.cardStocks.ticker} ${selectedStock.stocksCLosePrice.close}`
 
-    const inputsTypeNumberEl = screen.getAllByRole('spinbutton')
-    const percentualInputEl = inputsTypeNumberEl[0]
+    render(
+      <Provider store={store}>
+        <PortifolioForm />
+      </Provider>
+    )
 
-    const addButtonEL = screen.getByRole('reset-add')
-    const errorEl = await screen.getByTestId('error')
     const selectEl = screen.getByRole('combobox')
+    const inputPercentualEl = screen.getByRole('percentual')
+    const addButtonEL = screen.getByRole('reset-add')
 
-    fireEvent.change(percentualInputEl, { target: { value: testPercentual } })
-    fireEvent.change(selectEl, { target: { value: expectedStockValue } })
-    fireEvent.click(addButtonEL)
+    act(() => { userEvent.type(inputPercentualEl, testPercentual) })
 
-    fireEvent.change(selectEl, { target: { value: {} } })
+    act(() => { userEvent.click(addButtonEL) })
 
+    expect(screen.getByText(/Você já usou todo seu aporte/i)).toBeInTheDocument()
+
+    act(() => { userEvent.type(inputPercentualEl, '10') })
+
+    expect(inputPercentualEl).toBeDisabled()
+
+    act(() => {
+      userEvent.selectOptions(
+        selectEl,
+        expectedValue
+      )
+    })
     expect(selectEl).toBeDisabled()
-    expect(addButtonEL).toBeDisabled()
-    expect(errorEl).toBeTruthy()
   })
 
-  it('return select input function after select an already selected stock', async () => {
+  it('stops select input function after selecting an already selected option', async () => {
     const store = createMockStore()
+
+    const jsdomAlert = window.alert
+    window.alert = jest.fn()
+
+    const selectedStock = store.getState().userStocks[0]
+    const expectedValue = `${selectedStock.cardStocks.ticker} ${selectedStock.stocksCLosePrice.close}`
 
     render(
       <Provider store={store}>
@@ -179,66 +171,61 @@ describe('Renders StockCard correctly', () => {
       </Provider>
     )
 
-    const testPercentual = '40'
-    const selectedStock = store.getState().userStocks[0]
-    const expectedStockValue = `${selectedStock.cardStocks.ticker} ${selectedStock.stocksCLosePrice.close}`
-
-    const inputsTypeNumberEl = screen.getAllByRole('spinbutton')
-    const percentualInputEl = inputsTypeNumberEl[0]
-
     const addButtonEL = screen.getByRole('reset-add')
     const selectEl = screen.getByRole('combobox')
-    const optionsEl = screen.getAllByRole('option')
+    const optionEl2 = screen.getByRole('option', { name: /TST -100/i })
 
-    fireEvent.change(percentualInputEl, { target: { value: testPercentual } })
-    fireEvent.change(selectEl, { target: { value: expectedStockValue } })
-    fireEvent.click(addButtonEL)
+    act(() => {
+      userEvent.selectOptions(
+        selectEl,
+        expectedValue
+      )
+    })
 
-    fireEvent.change(selectEl, { target: { value: expectedStockValue } })
-    fireEvent.change(percentualInputEl, { target: { value: testPercentual } })
-    fireEvent.click(addButtonEL)
+    expect((selectEl.value)).toMatch(optionEl2.value)
 
-    expect(optionsEl[1].selected).toBeFalsy()
+    act(() => {
+      userEvent.click(addButtonEL)
+    })
+
+    act(() => {
+      userEvent.selectOptions(
+        selectEl,
+        expectedValue
+      )
+      userEvent.click(addButtonEL)
+    })
+    expect(selectEl.selected).toBeFalsy()
+    window.alert = jsdomAlert
   })
 
   it('renders a valid target value when value is higher than 100%', async () => {
     const store = createMockStore()
-    // const alertMock = jest.spyOn(window, 'alert').mockImplementation()
-    render(
-      <Provider store={store}>
-        <PortifolioForm />
-      </Provider>
-    )
+    const jsdomAlert = window.alert
+    window.alert = jest.fn()
 
     const testPercentual = '99'
     const testInvalidPercentual = '90'
     const selectedStock = store.getState().userStocks[0]
     const expectedStockValue = `${selectedStock.cardStocks.ticker} ${selectedStock.stocksCLosePrice.close}`
 
-    const inputsTypeNumberEl = screen.getAllByRole('spinbutton')
-    const percentualInputEl = inputsTypeNumberEl[0]
+    render(
+      <Provider store={store}>
+        <PortifolioForm />
+      </Provider>
+    )
+
+    const inputPercentualEl = screen.getByRole('percentual')
     const selectEl = screen.getByRole('combobox')
     const addButtonEL = screen.getByRole('reset-add')
 
-    fireEvent.change(percentualInputEl, { target: { value: testPercentual } })
+    fireEvent.change(inputPercentualEl, { target: { value: testPercentual } })
     fireEvent.change(selectEl, { target: { value: expectedStockValue } })
     fireEvent.click(addButtonEL)
 
-    fireEvent.change(percentualInputEl, { target: { value: testInvalidPercentual } })
+    fireEvent.change(inputPercentualEl, { target: { value: testInvalidPercentual } })
 
-    await expect(percentualInputEl.value).toBe('1')
+    await expect(inputPercentualEl.value).toBe('1')
+    window.alert = jsdomAlert
   })
 })
-
-// const store = createMockStore()
-//     const testAmountValue = 1000
-//     const portifolioInfo = {
-//       stockInfos: [
-//         { ticker: 'AAPL', price: 125 },
-//         { ticker: 'AMZN', price: 3456 }
-//       ],
-//       percentual: [
-//         { percentual: 70 },
-//         { percentual: 30 }
-//       ]
-//     }

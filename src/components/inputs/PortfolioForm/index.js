@@ -107,7 +107,7 @@ function PortifolioForm ({ contributionValue, portifolioInfo }) {
                 onChange={handleContributionChange}
                 value={contributionValue}
                 placeholder="Valor total do aporte"
-                id="contribution"
+                role="contribution"
                 name="amount"
                 required
                 className="rounded-md px-3 py-2.5 mb-5 text-xs font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
@@ -136,7 +136,7 @@ function PortifolioForm ({ contributionValue, portifolioInfo }) {
                   )}
             </select>
             <span
-              data-testId="error"
+              role="error"
               style={{ visibility: error ? 'visible' : 'hidden' }}
               className="text-xs font-sans text-red-700 pt-2">
               Você já usou todo seu aporte
@@ -146,6 +146,7 @@ function PortifolioForm ({ contributionValue, portifolioInfo }) {
               <input
                 type="number"
                 name="percentual"
+                role="percentual"
                 placeholder="100"
                 id="number"
                 onChange={handlePercentualChange}
