@@ -76,6 +76,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "gh-pages": "^5.0.0",
     "jest": "^27.5.1",
+    "msw": "^1.2.2",
     "postcss": "^8.4.23",
     "redux-mock-store": "^1.5.4",
     "storybook": "^7.0.12",

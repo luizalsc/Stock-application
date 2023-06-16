@@ -1,113 +1,92 @@
-import { fireEvent, render, screen } from '@testing-library/react'
+import { render, screen, act } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import configureStore from 'redux-mock-store'
+import { createMockStore } from './testing-utils.js'
 import { StockCard } from './index.js'
 import { addStocksToPortifolio } from '../../data/store/actions/index.js'
 import reducer from '../../data/store/reducers/stock-portifolio'
-
-function createMockStore () {
-  const mockStore = configureStore([])
-  const store = mockStore({
-    cardStocks: { results: { name: 'Test Company', ticker: 'TST', description: 'Lorem Ipsum' } },
-    stockDetails: { close: 100.00 },
-    userStocks: []
-  })
-  return store
-}
+import { userEvent } from '@storybook/testing-library'
 
 describe('Renders StockCard correctly', () => {
   it('renders default message', () => {
     const store = createMockStore()
     store.getState().cardStocks.results = undefined
+
     render(
       <Provider store={store}>
         <StockCard />
       </Provider>
     )
+
     const message = screen.getByText(/Pesquise uma sigla de ação/i)
     expect(message).toBeInTheDocument()
   })
 
   it('renders stock information after fetch', () => {
     const store = createMockStore()
+
     render(
       <Provider store={store}>
         <StockCard />
       </Provider>
     )
-    const nameEl = screen.getByText('Test Company')
-    const tickerEl = screen.getByText('TST')
-    const descriptionEl = screen.getByText('Lorem Ipsum')
 
-    expect(nameEl).toBeInTheDocument()
-    expect(tickerEl).toBeInTheDocument()
-    expect(descriptionEl).toBeInTheDocument()
+    expect(screen.getByText(/Test Company/i)).toBeInTheDocument()
+    expect(screen.getByText(/TST/i)).toBeInTheDocument()
+    expect(screen.getByText(/Lorem Ipsum/i)).toBeInTheDocument()
   })
 
-  it('renders button', () => {
+  it('renders button correctly', () => {
     const store = createMockStore()
+
     render(
       <Provider store={store}>
         <StockCard />
       </Provider>
     )
-    const buttonEl = screen.getByRole('button')
+
+    const buttonEl = screen.getByRole('button', { name: /Adicionar à minha carteira/i })
+
     expect(buttonEl).toBeInTheDocument()
   })
 
-  it('dispatch the correct action when button is clicked', () => {
+  it('dispatches action correctly after button is clicked', () => {
     const store = createMockStore()
-    render(
-      <Provider store={store}>
-        <StockCard />
-      </Provider>
-    )
-
-    const buttonEl = screen.getByRole('button')
-    // Acess the array of actions in this Component
-    const actions = store.getActions()
-    fireEvent.click(buttonEl)
-    // Verify the action type fired
-    expect(actions[0].type).toEqual('ADD_STOCK_TO_PORTIFOLIO')
-  })
-
-  it('dispatch the correct payload when button is clicked', () => {
-    const store = createMockStore()
-    render(
-      <Provider store={store}>
-        <StockCard />
-      </Provider>
-    )
-
     const expectedPayload = { cardStocks: { description: 'Lorem Ipsum', name: 'Test Company', ticker: 'TST' }, stocksCLosePrice: { close: 100 } }
 
-    const buttonEl = screen.getByRole('button')
+    render(
+      <Provider store={store}>
+        <StockCard />
+      </Provider>
+    )
+
+    const buttonEl = screen.getByRole('button', { name: /Adicionar à minha carteira/i })
     // Acess the array of actions in this Component
     const actions = store.getActions()
-    fireEvent.click(buttonEl)
+    act(() => { userEvent.click(buttonEl) })
+
     // Verify the action type fired
+    expect(actions[0].type).toEqual('ADD_STOCK_TO_PORTIFOLIO')
     expect(actions[0].payload).toEqual(expectedPayload)
   })
 
-  it('add stock to userStocks when action is dispatched', () => {
+  it('adds correctly stock to userStocks when action is dispatched', () => {
     const store = createMockStore()
+    const expectedUserStocks = [{ cardStocks: { description: 'Lorem Ipsum', name: 'Test Company', ticker: 'TST' }, stocksCLosePrice: { close: 100 } }]
+
     render(
       <Provider store={store}>
         <StockCard />
       </Provider>
     )
 
-    const expectedUserStocks = [{ cardStocks: { description: 'Lorem Ipsum', name: 'Test Company', ticker: 'TST' }, stocksCLosePrice: { close: 100 } }]
-
-    const buttonEl = screen.getByRole('button')
+    const buttonEl = screen.getByRole('button', { name: /Adicionar à minha carteira/i })
     // Acess the array of actions in this Component
     const actions = store.getActions()
-    fireEvent.click(buttonEl)
+    act(() => { userEvent.click(buttonEl) })
     // Verify the new store state
 
     expect(reducer(store.getState().userStocks, addStocksToPortifolio(actions[0].payload))).toEqual(expectedUserStocks)
-    expect(reducer(store.getState().userStocks, addStocksToPortifolio(actions[0].payload))).not.toEqual(store.getState().userStocks)
   })
 })
 
-// npm test -- src/components/card/stock-card.test.js
+// npm test -- src/components/StockCard/index.test.js

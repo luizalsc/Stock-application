@@ -10,6 +10,7 @@ describe('Renders StockCard correctly', () => {
   it('renders default message', () => {
     const store = createMockStore()
     store.getState().userStocks = []
+
     render(
       <Provider store={store}>
         <StocksPortfolio />
@@ -21,6 +22,7 @@ describe('Renders StockCard correctly', () => {
 
   it('renders list after receiving stocks information', () => {
     const store = createMockStore()
+
     render(
       <Provider store={store}>
         <StocksPortfolio />

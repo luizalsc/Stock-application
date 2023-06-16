@@ -3,6 +3,17 @@ import { render, screen } from '@testing-library/react'
 import { Calculator, portfolioCalculator } from '../Calculator/index'
 
 describe('Renders StockCard correctly', () => {
+  it('Renders default mesagem before receiving usersWallet info', () => {
+    const userMocksWallet = []
+
+    render(
+      <Calculator usersWallet={userMocksWallet} />
+    )
+    const defaultMessageElement = screen.getByText(/Aguardando cálculo/i)
+
+    expect(defaultMessageElement).toBeInTheDocument()
+  })
+
   it('Renders all stocks and their quantity', () => {
     const userMocksWallet = [
       '8 ações da TST',

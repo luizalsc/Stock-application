@@ -17,9 +17,9 @@ describe('Renders PortflioForm correctly', () => {
       </Provider>
     )
 
-    const formEl = screen.getByRole('form')
+    const formElement = screen.getByRole('form')
 
-    expect(formEl).toBeInTheDocument()
+    expect(formElement).toBeInTheDocument()
   })
 
   it('selects the correct option after user selection', () => {
@@ -31,22 +31,23 @@ describe('Renders PortflioForm correctly', () => {
       </Provider>
     )
     const selectedStock = store.getState().userStocks[0]
-    const selectEl = screen.getByRole('combobox')
-    const optionEl1 = screen.getByRole('option', { name: /-Selecione-/i })
-    const optionEl2 = screen.getByRole('option', { name: /TST -100/i })
-    const optionEl3 = screen.getByRole('option', { name: /TST2 -200/i })
+    const selectElement = screen.getByRole('combobox')
+    const optionElement1 = screen.getByRole('option', { name: /-Selecione-/i })
+    const optionElement2 = screen.getByRole('option', { name: /TST -100/i })
+    const optionElement3 = screen.getByRole('option', { name: /TST2 -200/i })
     const expectedValue = `${selectedStock.cardStocks.ticker} ${selectedStock.stocksCLosePrice.close}`
 
-    fireEvent.change(selectEl, { target: { value: expectedValue } })
+    fireEvent.change(selectElement, { target: { value: expectedValue } })
 
-    expect(optionEl1).toBeDisabled()
-    expect(optionEl2.selected).toBeTruthy()
-    expect(optionEl3.selected).toBeFalsy()
-    expect(selectEl.value).toMatch(`${selectedStock.cardStocks.ticker} ${selectedStock.stocksCLosePrice.close}`)
+    expect(optionElement1).toBeDisabled()
+    expect(optionElement2.selected).toBeTruthy()
+    expect(optionElement3.selected).toBeFalsy()
+    expect(selectElement.value).toMatch(`${selectedStock.cardStocks.ticker} ${selectedStock.stocksCLosePrice.close}`)
   })
 
   it('changes amount input value after user typing', () => {
     const store = createMockStore()
+    const testValue = '1000'
 
     render(
       <Provider store={store}>
@@ -54,16 +55,18 @@ describe('Renders PortflioForm correctly', () => {
       </Provider>
     )
 
-    const testValue = '1000'
-    const inputAmountEl = screen.getByRole('contribution')
+    const inputAmountElement = screen.getByRole('contribution')
 
-    fireEvent.change(inputAmountEl, { target: { value: testValue } })
+    act(() => {
+      userEvent.type(inputAmountElement, testValue)
+    })
 
-    expect(inputAmountEl.value).toBe(testValue)
+    expect(inputAmountElement.value).toBe(testValue)
   })
 
   it('changes percentual value after user typing', () => {
     const store = createMockStore()
+    const testValue = '10'
 
     render(
       <Provider store={store}>
@@ -71,12 +74,13 @@ describe('Renders PortflioForm correctly', () => {
       </Provider>
     )
 
-    const testValue = '10'
-    const inputPercentualEl = screen.getByRole('percentual')
+    const inputPercentualElement = screen.getByRole('percentual')
 
-    fireEvent.change(inputPercentualEl, { target: { value: testValue } })
+    act(() => {
+      userEvent.type(inputPercentualElement, testValue)
+    })
 
-    expect(inputPercentualEl.value).toBe(testValue)
+    expect(inputPercentualElement.value).toBe(testValue)
   })
 
   it('submits form when submit button is clicked', () => {
@@ -95,29 +99,26 @@ describe('Renders PortflioForm correctly', () => {
       </Provider>
     )
 
-    const formEl = screen.getByRole('form')
-    formEl.onsubmit = handleSubmit
-    const inputAmountEl = screen.getByRole('contribution')
-    const inputPercentualEl = screen.getByRole('percentual')
-    const selectEl = screen.getByRole('combobox')
-    const button = screen.getByRole('submit')
-    const addEl = screen.getByRole('reset-add')
+    const formElement = screen.getByRole('form')
+    formElement.onsubmit = handleSubmit
+    const inputAmountElement = screen.getByRole('contribution')
+    const inputPercentualElement = screen.getByRole('percentual')
+    const selectElement = screen.getByRole('combobox')
+    const submitButton = screen.getByRole('submit')
+    const addButton = screen.getByRole('reset-add')
 
     act(() => {
       userEvent.selectOptions(
-        selectEl,
+        selectElement,
         expectedValue
       )
-      userEvent.type(inputPercentualEl, testPercentualValue)
-      userEvent.click(addEl)
-      userEvent.type(inputAmountEl, testAmountValue)
-      userEvent.click(button)
+      userEvent.type(inputPercentualElement, testPercentualValue)
+      userEvent.click(addButton)
+      userEvent.type(inputAmountElement, testAmountValue)
+      userEvent.click(submitButton)
     })
 
-    // fireEvent.submit(formEl)
-
     expect(handleSubmit).toHaveBeenCalledTimes(1)
-    // Preciso testar os parâmetros da função portfolioCalculator() dentro do handleSubmit , mas não sei como...
   })
 
   it('disables inputs after reaching to 100% target value', () => {
@@ -133,27 +134,27 @@ describe('Renders PortflioForm correctly', () => {
       </Provider>
     )
 
-    const selectEl = screen.getByRole('combobox')
-    const inputPercentualEl = screen.getByRole('percentual')
-    const addButtonEL = screen.getByRole('reset-add')
+    const selectElement = screen.getByRole('combobox')
+    const inputPercentualElement = screen.getByRole('percentual')
+    const addButton = screen.getByRole('reset-add')
 
-    act(() => { userEvent.type(inputPercentualEl, testPercentual) })
+    act(() => { userEvent.type(inputPercentualElement, testPercentual) })
 
-    act(() => { userEvent.click(addButtonEL) })
+    act(() => { userEvent.click(addButton) })
 
     expect(screen.getByText(/Você já usou todo seu aporte/i)).toBeInTheDocument()
 
-    act(() => { userEvent.type(inputPercentualEl, '10') })
+    act(() => { userEvent.type(inputPercentualElement, '10') })
 
-    expect(inputPercentualEl).toBeDisabled()
+    expect(inputPercentualElement).toBeDisabled()
 
     act(() => {
       userEvent.selectOptions(
-        selectEl,
+        selectElement,
         expectedValue
       )
     })
-    expect(selectEl).toBeDisabled()
+    expect(selectElement).toBeDisabled()
   })
 
   it('stops select input function after selecting an already selected option', async () => {
@@ -171,31 +172,31 @@ describe('Renders PortflioForm correctly', () => {
       </Provider>
     )
 
-    const addButtonEL = screen.getByRole('reset-add')
-    const selectEl = screen.getByRole('combobox')
-    const optionEl2 = screen.getByRole('option', { name: /TST -100/i })
+    const addButton = screen.getByRole('reset-add')
+    const selectElement = screen.getByRole('combobox')
+    const optionElement2 = screen.getByRole('option', { name: /TST -100/i })
 
     act(() => {
       userEvent.selectOptions(
-        selectEl,
+        selectElement,
         expectedValue
       )
     })
 
-    expect((selectEl.value)).toMatch(optionEl2.value)
+    expect((selectElement.value)).toMatch(optionElement2.value)
 
     act(() => {
-      userEvent.click(addButtonEL)
+      userEvent.click(addButton)
     })
 
     act(() => {
       userEvent.selectOptions(
-        selectEl,
+        selectElement,
         expectedValue
       )
-      userEvent.click(addButtonEL)
+      userEvent.click(addButton)
     })
-    expect(selectEl.selected).toBeFalsy()
+    expect(selectElement.selected).toBeFalsy()
     window.alert = jsdomAlert
   })
 
@@ -215,17 +216,22 @@ describe('Renders PortflioForm correctly', () => {
       </Provider>
     )
 
-    const inputPercentualEl = screen.getByRole('percentual')
-    const selectEl = screen.getByRole('combobox')
-    const addButtonEL = screen.getByRole('reset-add')
+    const inputPercentualElement = screen.getByRole('percentual')
+    const selectElement = screen.getByRole('combobox')
+    const addButton = screen.getByRole('reset-add')
 
-    fireEvent.change(inputPercentualEl, { target: { value: testPercentual } })
-    fireEvent.change(selectEl, { target: { value: expectedStockValue } })
-    fireEvent.click(addButtonEL)
+    act(() => {
+      userEvent.type(inputPercentualElement, testPercentual)
+      userEvent.selectOptions(
+        selectElement,
+        expectedStockValue
+      )
+      userEvent.click(addButton)
 
-    fireEvent.change(inputPercentualEl, { target: { value: testInvalidPercentual } })
+      userEvent.type(inputPercentualElement, testInvalidPercentual)
+    })
 
-    await expect(inputPercentualEl.value).toBe('1')
+    await expect(inputPercentualElement.value).toBe('1')
     window.alert = jsdomAlert
   })
 })
