@@ -1,30 +1,38 @@
 import {
-  fireEvent, render, screen, act
+  render, screen, act
 } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { UserForm } from '.'
 import { store } from '../../../data/store/store'
 import PropTypes from 'prop-types'
 import { getTickerDetails, getTickers } from '../../../data/services/Polygon-API'
+import userEvent from '@testing-library/user-event'
+
+const stockTickers = 'AAPL'
 
 jest.mock('../../../data/services/Polygon-API', () => ({
   getTickers: jest.fn(),
   getTickerDetails: jest.fn()
 }))
 
+// jest.mock('../../../data/services/Polygon-API')
+
+afterEach(() => {
+  getTickers.mockReset()
+  getTickerDetails.mockReset()
+})
+
 function ReduxProvider ({ children }) {
   return <Provider store={store}>{children}</Provider>
 }
 
-it('stock research should be rendered', () => {
+it('renders form correctly', () => {
   render(<UserForm />, { wrapper: ReduxProvider })
-  const inputFieldEl = screen.getByPlaceholderText(/SIGLA/i)
-  expect(inputFieldEl).toBeInTheDocument()
-})
 
-it('button should be rendered', () => {
-  render(<UserForm />, { wrapper: ReduxProvider })
+  const inputFieldElement = screen.getByPlaceholderText(/SIGLA/i)
   const submitButton = screen.getByRole('button')
+
+  expect(inputFieldElement).toBeInTheDocument()
   expect(submitButton).toBeInTheDocument()
 })
 
@@ -34,14 +42,15 @@ it('handles form submission correctly when fetch status is OK', async () => {
 
   render(<UserForm />, { wrapper: ReduxProvider })
 
-  const inputFieldEl = screen.getByPlaceholderText(/SIGLA/i)
+  const inputFieldElement = screen.getByPlaceholderText(/SIGLA/i)
   const submitButton = screen.getByText('Pesquisar')
 
-  // Fill in the input field with test data.
-  fireEvent.change(inputFieldEl, { target: { value: 'AAPL' } })
-
-  // Simulate a form submission.
-  fireEvent.click(submitButton)
+  act(() => {
+    // Fill in the input field with test data.
+    userEvent.type(inputFieldElement, 'AAPL')
+    // Simulate a form submission.
+    userEvent.click(submitButton)
+  })
 
   // Wait for the fetchData function to resolve.
   await act(async () => {
@@ -49,8 +58,8 @@ it('handles form submission correctly when fetch status is OK', async () => {
   })
 
   // Check that the getTickers and getTickerDetails functions were called with the correct data.
-  expect(getTickers).toHaveBeenCalledWith('AAPL')
-  expect(getTickerDetails).toHaveBeenCalledWith('AAPL')
+  expect(getTickers).toHaveBeenCalledWith(stockTickers)
+  expect(getTickerDetails).toHaveBeenCalledWith(stockTickers)
 })
 
 it('renders error when fetch status is NOT FOUND', async () => {
@@ -58,15 +67,16 @@ it('renders error when fetch status is NOT FOUND', async () => {
 
   render(<UserForm />, { wrapper: ReduxProvider })
 
-  const inputFieldEl = screen.getByPlaceholderText(/SIGLA/i)
+  const inputFieldElement = screen.getByPlaceholderText(/SIGLA/i)
   const submitButton = screen.getByText('Pesquisar')
-  const errorEl = await screen.getByTestId('error')
+  const errorElement = await screen.getByTestId('error')
 
-  // Fill in the input field with test data..
-  fireEvent.change(inputFieldEl, { target: { value: 'APL' } })
-
-  // Simulate a form submission.
-  fireEvent.click(submitButton)
+  act(() => {
+    // Fill in the input field with test data.
+    userEvent.type(inputFieldElement, 'APL')
+    // Simulate a form submission.
+    userEvent.click(submitButton)
+  })
 
   // Wait for the fetchData function to resolve.
   await act(async () => {
@@ -75,7 +85,7 @@ it('renders error when fetch status is NOT FOUND', async () => {
 
   // Check that the getTickers and getTickerDetails functions were called with the correct data.
   expect(getTickers).toHaveBeenCalledWith('APL')
-  expect(errorEl).toBeVisible()
+  expect(errorElement).toBeVisible()
 })
 
 ReduxProvider.propTypes = {
