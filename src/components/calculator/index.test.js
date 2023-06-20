@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
-import { Calculator, portfolioCalculator } from '../Calculator/index'
+import { Calculator, portfolioCalculator } from '../Calculator'
 
 describe('Renders StockCard correctly', () => {
   it('Renders default mesagem before receiving usersWallet info', () => {

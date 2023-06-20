@@ -29,11 +29,11 @@ describe('Renders StockCard correctly', () => {
       </Provider>
     )
 
-    const listEl = screen.getByRole('list')
-    const listItemEl = screen.getAllByRole('heading3')
+    const listElement = screen.getByRole('list')
+    const listItemElement = screen.getAllByRole('heading3')
 
-    expect(listEl).toBeInTheDocument()
-    expect(listItemEl).toHaveLength(2)
+    expect(listElement).toBeInTheDocument()
+    expect(listItemElement).toHaveLength(2)
     expect(screen.getByText(/TTT/i)).toBeInTheDocument()
     expect(screen.getByText(/TST2/i)).toBeInTheDocument()
   })
@@ -53,12 +53,12 @@ describe('Renders StockCard correctly', () => {
       </Provider>
     )
 
-    const buttonEl1 = screen.getAllByRole('button', { name: /Remover ação/i })[0]
+    const buttonElement1 = screen.getAllByRole('button', { name: /Remover ação/i })[0]
 
     // Acess the array of actions in this Component
     const actions = store.getActions()
 
-    act(() => { userEvent.click(buttonEl1) })
+    act(() => { userEvent.click(buttonElement1) })
 
     // Verify the action type fired
     expect(actions[0].type).toEqual('ADD_DELETED_STOCK')

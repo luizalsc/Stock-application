@@ -15,8 +15,6 @@ jest.mock('../../../data/services/Polygon-API', () => ({
   getTickerDetails: jest.fn()
 }))
 
-// jest.mock('../../../data/services/Polygon-API')
-
 afterEach(() => {
   getTickers.mockReset()
   getTickerDetails.mockReset()
