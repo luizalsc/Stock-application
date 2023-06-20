@@ -2,8 +2,8 @@ import { act, render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { createMockStore } from './testing-utils'
 import { StocksPortfolio } from './index'
-import { deleteSotck } from '../../data/store/actions/index'
-import reducer from '../../data/store/reducers/stock-portifolio'
+import { deleteSotck } from '../../data/store/actions'
+import portfolioReducer from '../../data/store/reducers'
 import userEvent from '@testing-library/user-event'
 
 describe('Renders StockCard correctly', () => {
@@ -40,6 +40,12 @@ describe('Renders StockCard correctly', () => {
 
   it('removes the item correctly when button is clicked', async () => {
     const store = createMockStore()
+    const initialState = store.getState()
+    const expectedStore = {
+      userStocks: [{ cardStocks: { name: 'Test Company 2', ticker: 'TST2', description: 'Lorem Ipsum 2' }, stocksCLosePrice: { close: 200.00 } }],
+      cardStocks: {},
+      stockDetails: {}
+    }
 
     render(
       <Provider store={store}>
@@ -59,10 +65,6 @@ describe('Renders StockCard correctly', () => {
     // Index of selected  stock = 0
     expect(actions[0].payload).toEqual(0)
     // Verify if the initial state was changed
-    expect(reducer(store.getState().userStocks, deleteSotck(actions[0].payload))).toEqual(
-      [
-        { cardStocks: { name: 'Test Company 2', ticker: 'TST2', description: 'Lorem Ipsum 2' }, stocksCLosePrice: { close: 200.00 } }
-      ]
-    )
+    expect(portfolioReducer(initialState, deleteSotck(actions[0].payload))).toEqual(expectedStore)
   })
 })

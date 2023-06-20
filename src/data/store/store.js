@@ -1,15 +1,7 @@
-import { combineReducers, createStore } from 'redux'
+import { createStore } from 'redux'
 import storage from 'redux-persist/lib/storage'
 import { persistReducer, persistStore } from 'redux-persist'
-import portifolioReducer from './reducers/stock-portifolio'
-import renderStocksReducer from './reducers/render-stock'
-import renderStockDetails from './reducers/render-stock-details'
-
-const rootReducer = combineReducers({
-  userStocks: portifolioReducer,
-  cardStocks: renderStocksReducer,
-  stockDetails: renderStockDetails
-})
+import rootReducer from './reducers'
 
 const persistConfig = {
   key: 'root',
