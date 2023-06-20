@@ -9,8 +9,8 @@ function Calculator ({ usersWallet }) {
             <div className="px-2">
               <p className="text-base mt-3 font-sans font-semibold text-gray-700">Você deve comprar:</p>
               <ul className="grid sm:grid-cols-2 md:grid-rows-5 gap-3 md:gap-1">
-                {usersWallet.map((units, index) => (
-                  <li key={index} className="sm:py-5">
+                {usersWallet.map((units) => (
+                  <li key={units} className="sm:py-5">
                     <p className="text-sm font-semibold text-gray-900">{units}</p>
                   </li>
                 ))}

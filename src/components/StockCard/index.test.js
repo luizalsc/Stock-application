@@ -44,9 +44,9 @@ describe('Renders StockCard correctly', () => {
       </Provider>
     )
 
-    const buttonEl = screen.getByRole('button', { name: /Adicionar à minha carteira/i })
+    const buttonElement = screen.getByRole('button', { name: /Adicionar à minha carteira/i })
 
-    expect(buttonEl).toBeInTheDocument()
+    expect(buttonElement).toBeInTheDocument()
   })
 
   it('dispatches action correctly after button is clicked', () => {
@@ -59,10 +59,10 @@ describe('Renders StockCard correctly', () => {
       </Provider>
     )
 
-    const buttonEl = screen.getByRole('button', { name: /Adicionar à minha carteira/i })
+    const buttonElement = screen.getByRole('button', { name: /Adicionar à minha carteira/i })
     // Acess the array of actions in this Component
     const actions = store.getActions()
-    act(() => { userEvent.click(buttonEl) })
+    act(() => { userEvent.click(buttonElement) })
 
     // Verify the action type fired
     expect(actions[0].type).toEqual('ADD_STOCK_TO_PORTIFOLIO')
