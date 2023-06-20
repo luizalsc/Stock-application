@@ -2,7 +2,7 @@
 A application using React and Redux.
 This project is a simple application that allows the user to search for information about a stock and add it to a portfolio of personal stocks. After a portfolio is created the user can calculate how many share units must be purchased to meet the total investment and the desired percentage of purchase of each share in the personal portfolio.
 
-❗❗ Warning: This is under development! So be careful, things may change a little.❗
+❗ Warning: This is under development! So be careful, things may change a little.❗
 
 # Features
 * Searching field
