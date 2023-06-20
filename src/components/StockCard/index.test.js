@@ -2,8 +2,8 @@ import { render, screen, act } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { createMockStore } from './testing-utils.js'
 import { StockCard } from './index.js'
-import { addStocksToPortifolio } from '../../data/store/actions/index.js'
-import reducer from '../../data/store/reducers/stock-portifolio'
+import { addStocksToPortifolio } from '../../data/store/actions'
+import portfolioReducer from '../../data/store/reducers'
 import { userEvent } from '@storybook/testing-library'
 
 describe('Renders StockCard correctly', () => {
@@ -71,7 +71,12 @@ describe('Renders StockCard correctly', () => {
 
   it('adds correctly stock to userStocks when action is dispatched', () => {
     const store = createMockStore()
-    const expectedUserStocks = [{ cardStocks: { description: 'Lorem Ipsum', name: 'Test Company', ticker: 'TST' }, stocksCLosePrice: { close: 100 } }]
+    const initialState = store.getState()
+    const expectedStore = {
+      cardStocks: { results: { name: 'Test Company', ticker: 'TST', description: 'Lorem Ipsum' } },
+      stockDetails: { close: 100.00 },
+      userStocks: [{ cardStocks: { description: 'Lorem Ipsum', name: 'Test Company', ticker: 'TST' }, stocksCLosePrice: { close: 100 } }]
+    }
 
     render(
       <Provider store={store}>
@@ -79,13 +84,14 @@ describe('Renders StockCard correctly', () => {
       </Provider>
     )
 
-    const buttonEl = screen.getByRole('button', { name: /Adicionar à minha carteira/i })
+    const buttonElement = screen.getByRole('button', { name: /Adicionar à minha carteira/i })
     // Acess the array of actions in this Component
     const actions = store.getActions()
-    act(() => { userEvent.click(buttonEl) })
+
+    act(() => { userEvent.click(buttonElement) })
     // Verify the new store state
 
-    expect(reducer(store.getState().userStocks, addStocksToPortifolio(actions[0].payload))).toEqual(expectedUserStocks)
+    expect(portfolioReducer(initialState, addStocksToPortifolio(actions[0].payload))).toEqual(expectedStore)
   })
 })
 
