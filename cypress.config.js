@@ -7,6 +7,6 @@ module.exports = defineConfig({
     }
   },
   env: {
-    REACT_APP_API_KEY: 'YOUR_KEY'
+    REACT_APP_API_KEY: 'Di9sCRa_Bj2l8cpNdcSXk4E3rpAp1aFP'
   }
 })
